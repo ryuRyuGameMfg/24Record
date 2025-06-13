@@ -30,7 +30,6 @@ public struct MainView: View {
     @State private var showingStatistics = false
     @State private var showingRoutineSettings = false
     @State private var showingAnalytics = false
-    @State private var showingCurrentActivity = false
     @State private var showingPremiumSubscription = false
     @State private var selectedTab = 0
     @StateObject private var storeManager = StoreKitManager.shared
@@ -53,6 +52,19 @@ public struct MainView: View {
     
     // Global floating state to disable scroll
     @State private var isAnyTaskFloating = false
+    
+    // Drag & Drop state management
+    @State private var draggedTask: SDTimeBlock?
+    @State private var dropZones: [DropZone] = []
+    @State private var hoveredDropZone: DropZone?
+    @State private var conflictingTasks: [SDTimeBlock] = []
+    
+    // Loading states for visual feedback
+    @State private var isLoadingTasks = false
+    @State private var operationInProgress = false
+    
+    // Auto-scroll for drag & drop
+    @State private var autoScrollTimer: Timer?
     
     // Timeline layout constants
     private let hourHeight: CGFloat = 80
@@ -86,18 +98,28 @@ public struct MainView: View {
                         .padding(.horizontal)
                     
                     // Timeline content
-                    ScrollView {
-                        ZStack {
-                            timelineContent
-                                .padding(.horizontal, 16)
-                            
-                            // Drag preview overlay
-                            if isDragging && dragStartTime != nil && dragEndTime != nil {
-                                dragPreviewOverlay
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            ZStack {
+                                timelineContent(proxy: proxy)
+                                    .padding(.horizontal, 16)
+                                
+                                // Drag preview overlay
+                                if isDragging && dragStartTime != nil && dragEndTime != nil {
+                                    dragPreviewOverlay
+                                }
+                                
+                                // Drop zone guides overlay - ドラッグ中のみ表示
+                                dropZoneGuidesOverlay
+                                
+                                // Loading overlay
+                                if isLoadingTasks || operationInProgress {
+                                    loadingOverlay
+                                }
                             }
                         }
+                        .scrollDisabled(draggedTask != nil || isAnyTaskFloating) // ドラッグ中やタスクが浮いている間はスクロール無効
                     }
-                    .scrollDisabled(isAnyTaskFloating)
                 }
                 
                 // Floating action button
@@ -116,7 +138,7 @@ public struct MainView: View {
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
-                                    .frame(width: 56, height: 56)
+                                    .frame(width: 64, height: 64) // 44px以上のタップ領域
                                     .background(
                                         LinearGradient(
                                             colors: [.pink, .red],
@@ -149,11 +171,11 @@ public struct MainView: View {
             
             // AI suggestions tab removed
             
-            // Current Activity Tab
-            CurrentActivityView(viewModel: viewModel)
+            // Settings Tab
+            SettingsView(viewModel: viewModel)
                 .tabItem {
-                    Image(systemName: "play.circle")
-                    Text("現在の活動")
+                    Image(systemName: "gearshape.fill")
+                    Text("設定")
                 }
                 .tag(2)
         }
@@ -278,7 +300,7 @@ public struct MainView: View {
         .padding(.vertical, 16)
     }
     
-    private var timelineContent: some View {
+    private func timelineContent(proxy: ScrollViewProxy) -> some View {
         // Force refresh when trigger changes
         let _ = viewModel.refreshTrigger
         
@@ -324,7 +346,7 @@ public struct MainView: View {
                 ForEach(Array(overlapGroups.enumerated()), id: \.offset) { groupIndex, group in
                     if group.blocks.count > 1 {
                         // Overlapping tasks - display with improved UI
-                        ImprovedOverlappingTasksView(
+                        OverlappingTasksView(
                             group: group,
                             viewModel: viewModel,
                             selectedDate: viewModel.selectedDate,
@@ -338,6 +360,15 @@ public struct MainView: View {
                                 withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                                     showingUnifiedTaskAdd = true
                                 }
+                            },
+                            onDragStart: { draggedBlock in
+                                draggedTask = draggedBlock
+                                dropZones = calculateDropZones(for: draggedBlock)
+                            },
+                            onDragEnd: {
+                                draggedTask = nil
+                                dropZones = []
+                                hoveredDropZone = nil
                             }
                         )
                     } else {
@@ -345,9 +376,24 @@ public struct MainView: View {
                         ForEach(group.blocks) { block in
                             LongPressDeleteTaskView(
                                 block: block,
-                                viewModel: viewModel
+                                viewModel: viewModel,
+                                onDragStart: { draggedBlock in
+                                    draggedTask = draggedBlock
+                                    dropZones = calculateDropZones(for: draggedBlock)
+                                },
+                                onDragEnd: {
+                                    draggedTask = nil
+                                    dropZones = []
+                                    hoveredDropZone = nil
+                                    stopAutoScroll()
+                                },
+                                onDragMove: { dragPosition in
+                                    handleDragMove(at: dragPosition, proxy: proxy)
+                                },
+                                isAnyTaskFloating: $isAnyTaskFloating
                             )
                             .padding(.vertical, 4)
+                            .id("task_\(block.id.uuidString)")
                         }
                     }
                     
@@ -676,6 +722,255 @@ public struct MainView: View {
         }
     }
     
+    private var dropZoneGuidesOverlay: some View {
+        // ドラッグ中のみガイドラインを表示
+        LazyVStack(spacing: 0) {
+            if let draggedTask = draggedTask {
+                let availableDropZones = calculateDropZones(for: draggedTask)
+                
+                ForEach(availableDropZones.filter { $0.isValidDrop }) { zone in
+                    MinimalDropZoneGuideView(
+                        dropZone: zone,
+                        isHovered: hoveredDropZone?.id == zone.id,
+                        draggedTaskDuration: draggedTask.duration
+                    )
+                    .id("dropzone_\(zone.id)")
+                }
+            }
+        }
+        .transition(.opacity.animation(.easeInOut(duration: 0.2)))
+    }
+    
+    private var loadingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 16) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .pink))
+                    .scaleEffect(1.2)
+                
+                Text(operationInProgress ? "処理中..." : "読み込み中...")
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.white)
+            }
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(white: 0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(Color.pink.opacity(0.3), lineWidth: 1)
+                    )
+            )
+        }
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.2), value: isLoadingTasks)
+        .animation(.easeInOut(duration: 0.2), value: operationInProgress)
+    }
+    
+    // MARK: - Drag & Drop Functions
+    
+    private func calculateStaticDropZones(for allTasks: [SDTimeBlock]) -> [DropZone] {
+        let sortedTasks = allTasks.sorted { $0.startTime < $1.startTime }
+        var zones: [DropZone] = []
+        
+        // Before first task
+        if let firstTask = sortedTasks.first {
+            zones.append(DropZone(
+                insertPosition: 0,
+                targetTime: firstTask.startTime.addingTimeInterval(-3600), // 1 hour before
+                rect: CGRect(x: 0, y: 0, width: 100, height: 30),
+                isValidDrop: true,
+                conflictingTasks: []
+            ))
+        }
+        
+        // Between tasks
+        for i in 0..<sortedTasks.count-1 {
+            let currentTask = sortedTasks[i]
+            let nextTask = sortedTasks[i+1]
+            
+            let gapDuration = nextTask.startTime.timeIntervalSince(currentTask.endTime)
+            
+            // Only show drop zone if there's a meaningful gap (15 minutes or more)
+            if gapDuration >= 900 {
+                zones.append(DropZone(
+                    insertPosition: i + 1,
+                    targetTime: currentTask.endTime,
+                    rect: CGRect(x: 0, y: 0, width: 100, height: 30),
+                    isValidDrop: true,
+                    conflictingTasks: []
+                ))
+            }
+        }
+        
+        // After last task
+        if let lastTask = sortedTasks.last {
+            zones.append(DropZone(
+                insertPosition: sortedTasks.count,
+                targetTime: lastTask.endTime,
+                rect: CGRect(x: 0, y: 0, width: 100, height: 30),
+                isValidDrop: true,
+                conflictingTasks: []
+            ))
+        }
+        
+        return zones
+    }
+    
+    private func calculateDropZones(for draggedTask: SDTimeBlock) -> [DropZone] {
+        let allTasks = getAllBlocksWithRoutine().filter { $0.id != draggedTask.id }
+        let sortedTasks = allTasks.sorted { $0.startTime < $1.startTime }
+        
+        var zones: [DropZone] = []
+        let taskDuration = draggedTask.duration
+        
+        // Before first task
+        if let firstTask = sortedTasks.first {
+            let endTime = firstTask.startTime
+            let startTime = endTime.addingTimeInterval(-taskDuration)
+            let conflicts = findConflictingTasks(startTime: startTime, endTime: endTime, excluding: draggedTask.id, in: allTasks)
+            
+            zones.append(DropZone(
+                insertPosition: 0,
+                targetTime: startTime,
+                rect: CGRect(x: 0, y: 0, width: 100, height: 50), // Will be updated with actual position
+                isValidDrop: conflicts.isEmpty,
+                conflictingTasks: conflicts
+            ))
+        }
+        
+        // Between tasks
+        for i in 0..<sortedTasks.count-1 {
+            let currentTask = sortedTasks[i]
+            let nextTask = sortedTasks[i+1]
+            
+            let _ = nextTask.startTime.timeIntervalSince(currentTask.endTime)
+            let startTime = currentTask.endTime
+            let endTime = startTime.addingTimeInterval(taskDuration)
+            
+            // Check if the dragged task fits in the gap
+            let conflicts = findConflictingTasks(startTime: startTime, endTime: endTime, excluding: draggedTask.id, in: allTasks)
+            let fitsInGap = endTime <= nextTask.startTime
+            
+            zones.append(DropZone(
+                insertPosition: i + 1,
+                targetTime: startTime,
+                rect: CGRect(x: 0, y: 0, width: 100, height: 50),
+                isValidDrop: fitsInGap && conflicts.isEmpty,
+                conflictingTasks: conflicts
+            ))
+        }
+        
+        // After last task
+        if let lastTask = sortedTasks.last {
+            let startTime = lastTask.endTime
+            let endTime = startTime.addingTimeInterval(taskDuration)
+            let conflicts = findConflictingTasks(startTime: startTime, endTime: endTime, excluding: draggedTask.id, in: allTasks)
+            
+            zones.append(DropZone(
+                insertPosition: sortedTasks.count,
+                targetTime: startTime,
+                rect: CGRect(x: 0, y: 0, width: 100, height: 50),
+                isValidDrop: conflicts.isEmpty,
+                conflictingTasks: conflicts
+            ))
+        }
+        
+        return zones
+    }
+    
+    private func findConflictingTasks(startTime: Date, endTime: Date, excluding taskId: UUID, in tasks: [SDTimeBlock]) -> [SDTimeBlock] {
+        return tasks.filter { task in
+            task.id != taskId && 
+            !(endTime <= task.startTime || startTime >= task.endTime) // Overlap check
+        }
+    }
+    
+    private func handleTaskDrop(draggedTask: SDTimeBlock, to dropZone: DropZone) {
+        if dropZone.isValidDrop {
+            // Simple move without conflicts
+            let newEndTime = dropZone.targetTime.addingTimeInterval(draggedTask.duration)
+            viewModel.updateTimeBlock(draggedTask, startTime: dropZone.targetTime, endTime: newEndTime)
+        } else {
+            // Handle conflicts by pushing other tasks
+            pushConflictingTasks(draggedTask: draggedTask, dropZone: dropZone)
+        }
+    }
+    
+    private func pushConflictingTasks(draggedTask: SDTimeBlock, dropZone: DropZone) {
+        let newStartTime = dropZone.targetTime
+        let newEndTime = newStartTime.addingTimeInterval(draggedTask.duration)
+        
+        // Update the dragged task first
+        viewModel.updateTimeBlock(draggedTask, startTime: newStartTime, endTime: newEndTime)
+        
+        // Push conflicting tasks forward
+        var currentPushTime = newEndTime
+        let conflictingTasks = dropZone.conflictingTasks.sorted { $0.startTime < $1.startTime }
+        
+        for task in conflictingTasks {
+            let taskDuration = task.duration
+            let pushedEndTime = currentPushTime.addingTimeInterval(taskDuration)
+            
+            viewModel.updateTimeBlock(task, startTime: currentPushTime, endTime: pushedEndTime)
+            currentPushTime = pushedEndTime
+        }
+        
+        // Haptic feedback for successful reorganization
+        let notificationFeedback = UINotificationFeedbackGenerator()
+        notificationFeedback.notificationOccurred(.success)
+    }
+    
+    // MARK: - Auto Scroll Functions
+    
+    private func handleDragMove(at position: CGPoint, proxy: ScrollViewProxy) {
+        // 画面の上下端付近でドラッグしている場合、自動スクロールを開始
+        let screenHeight = UIScreen.main.bounds.height
+        let scrollThreshold: CGFloat = 100 // 上下100pxの範囲
+        
+        if position.y < scrollThreshold {
+            // 上にスクロール
+            startAutoScroll(direction: .up, proxy: proxy)
+        } else if position.y > screenHeight - scrollThreshold {
+            // 下にスクロール
+            startAutoScroll(direction: .down, proxy: proxy)
+        } else {
+            // スクロール停止
+            stopAutoScroll()
+        }
+    }
+    
+    private func startAutoScroll(direction: ScrollDirection, proxy: ScrollViewProxy) {
+        stopAutoScroll() // 既存のタイマーを停止
+        
+        let allTasks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
+        
+        switch direction {
+        case .up:
+            // 最初のタスクまでスクロール
+            if let firstTask = allTasks.first {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    proxy.scrollTo("task_\(firstTask.id.uuidString)", anchor: .top)
+                }
+            }
+        case .down:
+            // 最後のタスクまでスクロール
+            if let lastTask = allTasks.last {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    proxy.scrollTo("task_\(lastTask.id.uuidString)", anchor: .bottom)
+                }
+            }
+        }
+    }
+    
+    private func stopAutoScroll() {
+        autoScrollTimer?.invalidate()
+        autoScrollTimer = nil
+    }
+    
     // Reorder functions removed for better UX
 }
 
@@ -783,7 +1078,8 @@ struct InteractiveHourRowView: View {
                         ForEach(blocks) { block in
                             LongPressDeleteTaskView(
                                 block: block,
-                                viewModel: viewModel
+                                viewModel: viewModel,
+                                isAnyTaskFloating: $isAnyTaskFloating
                             )
                         }
                     }
@@ -880,60 +1176,100 @@ struct ModernTaskBlockView: View {
     @State private var editingTitle = ""
     @FocusState private var isTitleFieldFocused: Bool
     
+    // 15分を基準とした時間比例の高さ計算
+    private var taskHeight: CGFloat {
+        let durationMinutes = block.duration / 60 // 分単位
+        let baseHeight: CGFloat = 60 // 15分の基本高さ（短縮）
+        let minimumHeight: CGFloat = 50 // 最小高さ（短縮）
+        let maximumHeight: CGFloat = 100 // 最大高さを制限
+        
+        // 15分を基準として比例計算
+        let proportionalHeight = (durationMinutes / 15.0) * baseHeight
+        
+        // 段階的な高さ調整（より控えめに）
+        let adjustedHeight = switch durationMinutes {
+        case 0..<10:
+            max(minimumHeight, proportionalHeight * 0.9) // 10分未満は少し縮小
+        case 10..<15:
+            max(minimumHeight, proportionalHeight * 0.95) // 15分未満は若干縮小
+        case 15..<30:
+            proportionalHeight // 15-30分は比例通り
+        case 30..<60:
+            proportionalHeight * 1.05 // 30-60分は少し拡大（控えめ）
+        case 60..<120:
+            proportionalHeight * 1.1 // 1-2時間はさらに拡大（控えめ）
+        default:
+            proportionalHeight * 1.15 // 2時間以上は最大拡大（控えめ）
+        }
+        
+        return min(maximumHeight, adjustedHeight) // 最大高さを制限
+    }
+    
     var body: some View {
         Button(action: { 
             if !isEditing {
                 showingEdit = true
             }
         }) {
-            HStack(spacing: 12) {
-                // Left side: Icon
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: [block.color, block.color.opacity(0.8)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+            HStack(alignment: .top, spacing: 12) {
+                // Left side: Icon - 固定サイズで上部配置
+                VStack {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [block.color, block.color.opacity(0.8)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
                             )
-                        )
-                        .frame(width: 50, height: 50)
-                    
-                    if block.isRoutine {
-                        // Special icon for routine tasks
-                        Image(systemName: "clock.badge.checkmark.fill")
-                            .font(.system(.title3, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    } else {
-                        Image(systemName: block.category?.icon ?? "circle")
-                            .font(.system(.title3, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .frame(width: 44, height: 44) // サイズを少し小さく
+                        
+                        if block.isRoutine {
+                            // Special icon for routine tasks
+                            Image(systemName: "clock.badge.checkmark.fill")
+                                .font(.system(.body, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                        } else {
+                            Image(systemName: block.category?.icon ?? "circle")
+                                .font(.system(.body, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                        }
                     }
+                    .shadow(color: block.color.opacity(0.4), radius: 6, x: 0, y: 3)
+                    
+                    Spacer(minLength: 0) // 残りスペースを埋める
                 }
-                .shadow(color: block.color.opacity(0.4), radius: 8, x: 0, y: 4)
                 
-                // Right side: Task info
-                VStack(alignment: .leading, spacing: 4) {
-                    // Duration and status
+                // Right side: Task info - 柔軟なレイアウト
+                VStack(alignment: .leading, spacing: 6) {
+                    // Duration and status - コンパクトに配置
                     HStack {
-                        Text(durationText)
-                            .font(.system(.caption, design: .rounded))
-                            .fontWeight(.medium)
-                            .foregroundColor(block.color)
+                        HStack(spacing: 4) {
+                            // 時間長さインジケーター
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(durationIndicatorColor)
+                                .frame(width: 3, height: 10)
+                            
+                            Text(durationText)
+                                .font(.system(.caption, design: .rounded))
+                                .fontWeight(.medium)
+                                .foregroundColor(block.color)
+                        }
                         
                         Spacer()
                         
                         Circle()
                             .fill(statusColor)
-                            .frame(width: 12, height: 12)
+                            .frame(width: 10, height: 10)
                     }
                     
-                    // Title - Editable
+                    // Title - Editable - 上部に配置（アクセシビリティ改善）
                     if isEditing {
                         TextField("タイトル", text: $editingTitle)
-                            .font(.system(.body, design: .rounded))
+                            .font(.system(.body, design: .rounded)) // 16px以上のフォント
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .textFieldStyle(PlainTextFieldStyle())
@@ -943,34 +1279,41 @@ struct ModernTaskBlockView: View {
                             }
                     } else {
                         Text(block.title)
-                            .font(.system(.body, design: .rounded))
+                            .font(.system(.body, design: .rounded)) // 16px以上のフォント
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
-                            .lineLimit(2)
+                            .lineLimit(3) // 行数を増やして対応
                             .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true) // 縦方向に柔軟
                             .onTapGesture {
                                 startEditingTitle()
                             }
                     }
                     
-                    // Time range
-                    Text(timeText)
-                        .font(.system(.caption2, design: .rounded))
-                        .foregroundColor(.gray)
+                    Spacer(minLength: 0) // 柔軟なスペース
                     
-                    // Notes if available
-                    if !block.notes.isEmpty {
-                        Text(block.notes)
+                    // Time range と Notes を下部に配置
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(timeText)
                             .font(.system(.caption2, design: .rounded))
-                            .foregroundColor(.gray.opacity(0.8))
-                            .lineLimit(1)
+                            .foregroundColor(.gray)
+                        
+                        // Notes if available
+                        if !block.notes.isEmpty {
+                            Text(block.notes)
+                                .font(.system(.caption2, design: .rounded))
+                                .foregroundColor(.gray.opacity(0.8))
+                                .lineLimit(2) // 行数を増やして対応
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
                 
-                Spacer()
+                Spacer(minLength: 0)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(.horizontal, 14)
+            .padding(.vertical, taskHeight > 70 ? 14 : 10) // 高さに応じてパディング調整
+            .frame(minHeight: taskHeight) // 時間に応じた高さを適用
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
@@ -1075,12 +1418,29 @@ struct ModernTaskBlockView: View {
             let hours = duration / 60
             let minutes = duration % 60
             if minutes > 0 {
-                return "\(hours)h\(minutes)m"
+                return "\(hours)時間\(minutes)分"
             } else {
-                return "\(hours)h"
+                return "\(hours)時間"
             }
         } else {
-            return "\(duration)m"
+            return "\(duration)分"
+        }
+    }
+    
+    // 時間長さによる視覚的な強調表示
+    private var durationIndicatorColor: Color {
+        let durationMinutes = block.duration / 60
+        switch durationMinutes {
+        case 0..<15:
+            return .yellow.opacity(0.8) // 短時間タスク
+        case 15..<30:
+            return .green.opacity(0.8) // 標準タスク
+        case 30..<60:
+            return .blue.opacity(0.8) // 中時間タスク
+        case 60..<120:
+            return .purple.opacity(0.8) // 長時間タスク
+        default:
+            return .red.opacity(0.8) // 超長時間タスク
         }
     }
     
@@ -1124,7 +1484,8 @@ struct TimelineRowView: View {
                 // Task without chain design
                 LongPressDeleteTaskView(
                     block: block,
-                    viewModel: viewModel
+                    viewModel: viewModel,
+                    isAnyTaskFloating: $isAnyTaskFloating
                 )
                 .padding(.vertical, 8)
                 
@@ -1644,6 +2005,33 @@ struct OverlapGroup {
     }
 }
 
+// MARK: - Scroll Direction Enum
+enum ScrollDirection {
+    case up, down
+}
+
+// MARK: - Drop Zone Model
+struct DropZone: Identifiable, Equatable {
+    let id = UUID()
+    let insertPosition: Int // タスクリストでの挿入位置
+    let targetTime: Date // 推奨開始時間
+    let rect: CGRect // 画面上の位置
+    let isValidDrop: Bool // ドロップ可能かどうか
+    let conflictingTasks: [SDTimeBlock] // 衝突するタスク
+    
+    init(insertPosition: Int, targetTime: Date, rect: CGRect, isValidDrop: Bool, conflictingTasks: [SDTimeBlock]) {
+        self.insertPosition = insertPosition
+        self.targetTime = targetTime
+        self.rect = rect
+        self.isValidDrop = isValidDrop
+        self.conflictingTasks = conflictingTasks
+    }
+    
+    static func == (lhs: DropZone, rhs: DropZone) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
 // MARK: - Overlapping Tasks View
 struct OverlappingTasksView: View {
     let group: OverlapGroup
@@ -1653,108 +2041,151 @@ struct OverlappingTasksView: View {
     let isFirst: Bool
     let isLast: Bool
     let onAddTask: ((Date) -> Void)?
+    let onDragStart: ((SDTimeBlock) -> Void)?
+    let onDragEnd: (() -> Void)?
     
     var body: some View {
         VStack(spacing: 0) {
-            // Time header with overlap indicator
-            HStack {
-                TimeMarkerView(time: group.startTime, label: formatTimeRange())
-                
-                Spacer()
-                
-                // Overlap indicator badge
-                HStack(spacing: 4) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.system(size: 12))
-                    Text("\(group.blocks.count)件の重複")
-                        .font(.system(.caption, design: .rounded))
+            headerView
+            tasksScrollView
+        }
+    }
+    
+    private var headerView: some View {
+        HStack {
+            TimeMarkerView(time: group.startTime, label: formatTimeRange())
+            
+            Spacer()
+            
+            overlapBadge
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
+    }
+    
+    private var overlapBadge: some View {
+        HStack(spacing: 4) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 12))
+            Text("\(group.blocks.count)件の重複")
+                .font(.system(.caption, design: .rounded))
+        }
+        .foregroundColor(.orange)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(
+            Capsule()
+                .fill(Color.orange.opacity(0.2))
+        )
+    }
+    
+    private var tasksScrollView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(Array(group.blocks.enumerated()), id: \.element.id) { index, block in
+                    taskBlockView(block: block, index: index)
                 }
-                .foregroundColor(.orange)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(
-                    Capsule()
-                        .fill(Color.orange.opacity(0.2))
-                )
             }
             .padding(.horizontal, 16)
-            .padding(.bottom, 8)
+        }
+        .frame(minHeight: calculateGroupHeight() + 20, maxHeight: calculateGroupHeight() + 40)
+        .background(containerBackground)
+        .padding(.vertical, 8)
+    }
+    
+    private func taskBlockView(block: SDTimeBlock, index: Int) -> some View {
+        VStack(spacing: 6) {
+            Text(formatBlockTime(block))
+                .font(.system(.caption2, design: .rounded))
+                .foregroundColor(.gray)
             
-            // Overlapping tasks container with improved layout
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(Array(group.blocks.enumerated()), id: \.element.id) { index, block in
-                        VStack(spacing: 8) {
-                            // Time range for each task
-                            Text(formatBlockTime(block))
-                                .font(.system(.caption2, design: .rounded))
-                                .foregroundColor(.gray)
-                            
-                            LongPressDeleteTaskView(
-                                block: block,
-                                viewModel: viewModel
-                            )
-                            .frame(width: 200)
-                            .overlay(
-                                // Overlap number indicator
-                                VStack {
-                                    HStack {
-                                        Circle()
-                                            .fill(Color.orange)
-                                            .frame(width: 24, height: 24)
-                                            .overlay(
-                                                Text("\(index + 1)")
-                                                    .font(.system(.caption2, design: .rounded))
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(.white)
-                                            )
-                                        Spacer()
-                                    }
-                                    Spacer()
-                                }
-                                .padding(8)
-                            )
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
+            ZStack {
+                LongPressDeleteTaskView(
+                    block: block,
+                    viewModel: viewModel,
+                    onDragStart: onDragStart,
+                    onDragEnd: onDragEnd,
+                    isAnyTaskFloating: $isAnyTaskFloating
+                )
+                .frame(width: 180)
+                
+                numberIndicator(index: index)
             }
-            .frame(height: calculateGroupHeight() + 30)
-            .background(
+        }
+    }
+    
+    private func numberIndicator(index: Int) -> some View {
+        VStack {
+            HStack {
+                Circle()
+                    .fill(Color.orange)
+                    .frame(width: 20, height: 20)
+                    .overlay(
+                        Text("\(index + 1)")
+                            .font(.system(.caption2, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    )
+                Spacer()
+            }
+            Spacer()
+        }
+        .padding(6)
+    }
+    
+    private var containerBackground: some View {
+        RoundedRectangle(cornerRadius: 16)
+            .fill(
+                LinearGradient(
+                    colors: [
+                        Color.orange.opacity(0.05),
+                        Color.red.opacity(0.02)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(
+                    .strokeBorder(
                         LinearGradient(
-                            colors: [
-                                Color.orange.opacity(0.05),
-                                Color.red.opacity(0.02)
-                            ],
+                            colors: [Color.orange.opacity(0.3), Color.red.opacity(0.2)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
-                        )
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .strokeBorder(
-                                LinearGradient(
-                                    colors: [Color.orange.opacity(0.3), Color.red.opacity(0.2)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 1.5
-                            )
+                        ),
+                        lineWidth: 1.5
                     )
             )
-            .padding(.vertical, 8)
-        }
     }
     
     private func calculateGroupHeight() -> CGFloat {
         let maxHeight = group.blocks.map { block in
-            let duration = block.endTime.timeIntervalSince(block.startTime)
-            return CGFloat(duration / 3600) * 80 + 20 // hourHeight + padding
-        }.max() ?? 100
+            let durationMinutes = block.duration / 60
+            let baseHeight: CGFloat = 60 // 15分の基本高さ（短縮）
+            let minimumHeight: CGFloat = 50 // 最小高さ（短縮）
+            let maximumHeight: CGFloat = 100 // 最大高さを制限
+            let proportionalHeight = (durationMinutes / 15.0) * baseHeight
+            
+            // 同じロジックを適用
+            let adjustedHeight = switch durationMinutes {
+            case 0..<10:
+                max(minimumHeight, proportionalHeight * 0.9)
+            case 10..<15:
+                max(minimumHeight, proportionalHeight * 0.95)
+            case 15..<30:
+                proportionalHeight
+            case 30..<60:
+                proportionalHeight * 1.05 // 控えめ
+            case 60..<120:
+                proportionalHeight * 1.1 // 控えめ
+            default:
+                proportionalHeight * 1.15 // 控えめ
+            }
+            
+            return min(maximumHeight, adjustedHeight)
+        }.max() ?? 80
         
-        return max(100, maxHeight)
+        return max(80, maxHeight + 30) // パディング分を短縮
     }
     
     private func formatTimeRange() -> String {
@@ -1777,6 +2208,289 @@ struct OverlappingTasksView: View {
         let endTime = formatter.string(from: block.endTime)
         
         return "\(startTime)〜\(endTime)"
+    }
+}
+
+// MARK: - Static Drop Zone Guide View
+struct StaticDropZoneGuideView: View {
+    let dropZone: DropZone
+    let isActive: Bool
+    let isDraggedTaskZone: Bool
+    
+    private var timeText: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: dropZone.targetTime)
+    }
+    
+    var body: some View {
+        HStack {
+            Spacer()
+                .frame(width: 66) // Timeline width offset
+            
+            VStack(spacing: 2) {
+                // Static drop zone indicator line
+                HStack {
+                    Rectangle()
+                        .fill(
+                            isDraggedTaskZone ? Color.orange.opacity(0.6) :
+                            isActive ? Color.green.opacity(0.8) : 
+                            Color.gray.opacity(0.3)
+                        )
+                        .frame(height: isDraggedTaskZone ? 3 : (isActive ? 2 : 1))
+                        .overlay(
+                            // Drop zone dots
+                            HStack {
+                                Circle()
+                                    .fill(
+                                        isDraggedTaskZone ? Color.orange :
+                                        isActive ? Color.green : Color.gray.opacity(0.5)
+                                    )
+                                    .frame(width: isDraggedTaskZone ? 10 : (isActive ? 8 : 6), 
+                                           height: isDraggedTaskZone ? 10 : (isActive ? 8 : 6))
+                                
+                                Spacer()
+                                
+                                Circle()
+                                    .fill(
+                                        isDraggedTaskZone ? Color.orange :
+                                        isActive ? Color.green : Color.gray.opacity(0.5)
+                                    )
+                                    .frame(width: isDraggedTaskZone ? 10 : (isActive ? 8 : 6), 
+                                           height: isDraggedTaskZone ? 10 : (isActive ? 8 : 6))
+                            }
+                        )
+                }
+                
+                // Time indicator (only show when active or current drag zone)
+                if isActive || isDraggedTaskZone {
+                    Text(timeText)
+                        .font(.system(.caption2, design: .rounded))
+                        .fontWeight(.medium)
+                        .foregroundColor(
+                            isDraggedTaskZone ? .orange : 
+                            isActive ? .green : .gray
+                        )
+                        .opacity(isDraggedTaskZone ? 1.0 : 0.7)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 4)
+        .animation(.easeInOut(duration: 0.2), value: isActive)
+        .animation(.easeInOut(duration: 0.2), value: isDraggedTaskZone)
+    }
+}
+
+// MARK: - Minimal Drop Zone Guide View (Improved UX)
+struct MinimalDropZoneGuideView: View {
+    let dropZone: DropZone
+    let isHovered: Bool
+    let draggedTaskDuration: TimeInterval
+    
+    private var timeText: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: dropZone.targetTime)
+    }
+    
+    var body: some View {
+        HStack {
+            Spacer()
+                .frame(width: 66) // Timeline width offset
+            
+            VStack(spacing: 2) {
+                // Subtle drop zone indicator line - only show when valid
+                if dropZone.isValidDrop {
+                    HStack {
+                        Rectangle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        isHovered ? Color.green.opacity(0.8) : Color.green.opacity(0.4),
+                                        isHovered ? Color.green.opacity(0.6) : Color.green.opacity(0.2)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(height: isHovered ? 3 : 2)
+                            .overlay(
+                                // Simple drop zone indicators at ends
+                                HStack {
+                                    Circle()
+                                        .fill(Color.green)
+                                        .frame(width: isHovered ? 8 : 6, height: isHovered ? 8 : 6)
+                                    
+                                    Spacer()
+                                    
+                                    Circle()
+                                        .fill(Color.green)
+                                        .frame(width: isHovered ? 8 : 6, height: isHovered ? 8 : 6)
+                                }
+                            )
+                    }
+                    
+                    // Time indicator only when hovered/active
+                    if isHovered {
+                        Text(timeText)
+                            .font(.system(.caption2, design: .rounded))
+                            .fontWeight(.medium)
+                            .foregroundColor(.green)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.green.opacity(0.15))
+                                    .overlay(
+                                        Capsule()
+                                            .strokeBorder(Color.green.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 4)
+        .animation(.easeInOut(duration: 0.2), value: isHovered)
+        .animation(.easeInOut(duration: 0.2), value: dropZone.isValidDrop)
+    }
+}
+
+// MARK: - Drop Zone Guide View (Original - kept for reference)
+struct DropZoneGuideView: View {
+    let dropZone: DropZone
+    let isHovered: Bool
+    let draggedTaskDuration: TimeInterval
+    
+    private var durationText: String {
+        let minutes = Int(draggedTaskDuration / 60)
+        if minutes >= 60 {
+            let hours = minutes / 60
+            let remainingMinutes = minutes % 60
+            if remainingMinutes > 0 {
+                return "\(hours)時間\(remainingMinutes)分"
+            } else {
+                return "\(hours)時間"
+            }
+        } else {
+            return "\(minutes)分"
+        }
+    }
+    
+    private var timeText: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: dropZone.targetTime)
+    }
+    
+    var body: some View {
+        HStack {
+            Spacer()
+                .frame(width: 66) // Timeline width offset
+            
+            VStack(spacing: 4) {
+                // Drop zone indicator line
+                HStack {
+                    Rectangle()
+                        .fill(
+                            dropZone.isValidDrop ? 
+                            (isHovered ? Color.green : Color.green.opacity(0.6)) :
+                            (isHovered ? Color.red : Color.red.opacity(0.6))
+                        )
+                        .frame(height: 2)
+                        .overlay(
+                            // Drop zone circles
+                            HStack {
+                                Circle()
+                                    .fill(dropZone.isValidDrop ? Color.green : Color.red)
+                                    .frame(width: 8, height: 8)
+                                
+                                Spacer()
+                                
+                                Circle()
+                                    .fill(dropZone.isValidDrop ? Color.green : Color.red)
+                                    .frame(width: 8, height: 8)
+                            }
+                        )
+                }
+                
+                // Guide information
+                if isHovered || !dropZone.isValidDrop {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(timeText)に配置")
+                                .font(.system(.caption, design: .rounded))
+                                .fontWeight(.medium)
+                                .foregroundColor(.white)
+                            
+                            Text("(\(durationText))")
+                                .font(.system(.caption2, design: .rounded))
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        if !dropZone.isValidDrop {
+                            HStack(spacing: 4) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .font(.system(.caption2))
+                                Text("重複")
+                                    .font(.system(.caption2, design: .rounded))
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Capsule()
+                                    .fill(Color.red.opacity(0.2))
+                            )
+                        } else {
+                            HStack(spacing: 4) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(.caption2))
+                                Text("配置可能")
+                                    .font(.system(.caption2, design: .rounded))
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(.green)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                Capsule()
+                                    .fill(Color.green.opacity(0.2))
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.black.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(
+                                        dropZone.isValidDrop ? Color.green.opacity(0.5) : Color.red.opacity(0.5),
+                                        lineWidth: 1
+                                    )
+                            )
+                    )
+                    .transition(.scale.combined(with: .opacity))
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .animation(.easeInOut(duration: 0.2), value: isHovered)
     }
 }
 

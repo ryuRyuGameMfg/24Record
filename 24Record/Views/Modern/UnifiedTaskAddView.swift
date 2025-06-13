@@ -65,6 +65,12 @@ struct UnifiedTaskAddView: View {
             if !isEditMode {
                 let proposedEndTime = taskStartTime.addingTimeInterval(selectedDuration)
                 taskEndTime = min(proposedEndTime, allowedTimeRange.upperBound)
+                
+                // デフォルトで右上のタスク（3番目のカテゴリ）を選択
+                let categories = getMainCategories()
+                if selectedCategory == nil && categories.count >= 3 {
+                    selectedCategory = categories[2] // 0-based index, so 2 = 3rd item (top-right)
+                }
             }
         }
         .alert("タスクを削除", isPresented: $showingDeleteAlert) {

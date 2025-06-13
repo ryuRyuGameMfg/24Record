@@ -480,4 +480,37 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     func canUseAdvancedNotifications() -> Bool {
         return StoreKitManager.isPremium
     }
+    
+    // MARK: - Data Management
+    
+    func clearAllTasks() {
+        do {
+            // Fetch all time blocks
+            let descriptor = FetchDescriptor<SDTimeBlock>()
+            let allBlocks = try modelContext.fetch(descriptor)
+            
+            // Delete all time blocks
+            for block in allBlocks {
+                modelContext.delete(block)
+            }
+            
+            // Clear statistics cache as well
+            let cacheDescriptor = FetchDescriptor<SDStatisticsCache>()
+            let allCaches = try modelContext.fetch(cacheDescriptor)
+            
+            for cache in allCaches {
+                modelContext.delete(cache)
+            }
+            
+            // Save changes
+            try modelContext.save()
+            
+            // Trigger UI refresh
+            refreshTrigger = UUID()
+            
+            print("Successfully cleared all task data")
+        } catch {
+            print("Failed to clear task data: \(error)")
+        }
+    }
 }
