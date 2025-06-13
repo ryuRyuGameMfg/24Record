@@ -17,6 +17,8 @@ struct UnifiedTaskAddView: View {
     @State private var taskMemo: String = ""
     @State private var showTimeSettings: Bool = false
     @State private var showingDeleteAlert = false
+    @State private var showingPremiumGate = false
+    @State private var premiumGateMessage = ""
     
     // 編集モードかどうかを判定
     private var isEditMode: Bool {
@@ -74,6 +76,11 @@ struct UnifiedTaskAddView: View {
         } message: {
             Text("このタスクを削除してもよろしいですか？この操作は取り消せません。")
         }
+        .premiumGate(
+            isPresented: $showingPremiumGate,
+            feature: "無制限のタスク作成",
+            message: premiumGateMessage
+        )
     }
     
     private var mainContentView: some View {
@@ -356,6 +363,14 @@ struct UnifiedTaskAddView: View {
     
     private func saveTask() {
         guard let category = selectedCategory else {
+            return
+        }
+        
+        // Check premium limitation
+        let canAdd = viewModel.canAddTask(for: viewModel.selectedDate)
+        if !canAdd.allowed, let reason = canAdd.reason {
+            premiumGateMessage = reason
+            showingPremiumGate = true
             return
         }
         

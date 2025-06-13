@@ -430,4 +430,54 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
             print("Failed to save context: \(error)")
         }
     }
+    
+    // MARK: - Premium Features Check
+    
+    func canAddTask(for date: Date) -> (allowed: Bool, reason: String?) {
+        // Check if premium
+        if StoreKitManager.isPremium {
+            return (true, nil)
+        }
+        
+        // Count tasks for the day
+        let tasksToday = getTimeBlocks(for: date).count
+        
+        if tasksToday >= StoreKitManager.freeTaskLimit {
+            return (false, "無料版では1日\(StoreKitManager.freeTaskLimit)タスクまでです")
+        }
+        
+        return (true, nil)
+    }
+    
+    func canAddTemplate() -> (allowed: Bool, reason: String?) {
+        // Check if premium
+        if StoreKitManager.isPremium {
+            return (true, nil)
+        }
+        
+        // Count templates
+        let templateCount = getTaskTemplates().count
+        
+        if templateCount >= StoreKitManager.freeTemplateLimit {
+            return (false, "無料版ではテンプレート\(StoreKitManager.freeTemplateLimit)個までです")
+        }
+        
+        return (true, nil)
+    }
+    
+    func canAccessDetailedStats() -> Bool {
+        return StoreKitManager.isPremium
+    }
+    
+    func canExportData() -> Bool {
+        return StoreKitManager.isPremium
+    }
+    
+    func canUseCustomThemes() -> Bool {
+        return StoreKitManager.isPremium
+    }
+    
+    func canUseAdvancedNotifications() -> Bool {
+        return StoreKitManager.isPremium
+    }
 }

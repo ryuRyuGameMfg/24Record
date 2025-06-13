@@ -31,16 +31,14 @@ public struct MainView: View {
     @State private var showingRoutineSettings = false
     @State private var showingAnalytics = false
     @State private var showingCurrentActivity = false
-    @State private var showingQuickActions = false
+    @State private var showingPremiumSubscription = false
     @State private var selectedTab = 0
+    @StateObject private var storeManager = StoreKitManager.shared
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) private var modelContext
     @ObservedObject private var routineSettings = DailyRoutineSettings.shared
     
-    // Reordering state
-    @State private var isReorderMode = false
-    @State private var reorderDraggedBlock: SDTimeBlock?
-    @State private var reorderedBlocks: [SDTimeBlock] = []
+    // Reordering removed for better UX
     
     // Drag & Drop state for time adjustment
     @State private var draggedBlock: SDTimeBlock?
@@ -108,28 +106,13 @@ public struct MainView: View {
                     HStack {
                         Spacer()
                         VStack(spacing: 16) {
-                            // Quick Action Buttons
-                            if showingQuickActions {
-                                QuickActionButtonsView(
-                                    viewModel: viewModel,
-                                    showingTaskAdd: $showingUnifiedTaskAdd
-                                )
-                                .transition(.scale.combined(with: .opacity))
-                            }
-                            
                             // Main FAB
                             Button(action: {
-                                if showingQuickActions {
-                                    suggestedStartTime = nil
-                                    suggestedEndTime = nil
-                                    showingUnifiedTaskAdd = true
-                                } else {
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                        showingQuickActions.toggle()
-                                    }
-                                }
+                                suggestedStartTime = nil
+                                suggestedEndTime = nil
+                                showingUnifiedTaskAdd = true
                             }) {
-                                Image(systemName: showingQuickActions ? "plus" : "ellipsis")
+                                Image(systemName: "plus")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
@@ -143,7 +126,6 @@ public struct MainView: View {
                                     )
                                     .clipShape(Circle())
                                     .shadow(color: Color.pink.opacity(0.4), radius: 12, x: 0, y: 8)
-                                    .rotationEffect(.degrees(showingQuickActions ? 45 : 0))
                             }
                         }
                         .padding(.trailing, 16)
@@ -175,8 +157,8 @@ public struct MainView: View {
                 }
                 .tag(2)
         }
-            
         .accentColor(.pink)
+        .background(Color.black)
         .sheet(isPresented: $showingUnifiedTaskAdd) {
             UnifiedTaskAddView(
                 viewModel: viewModel,
@@ -194,12 +176,10 @@ public struct MainView: View {
         .sheet(isPresented: $showingRoutineSettings) {
             DailyRoutineSettingsView()
         }
-        .onChange(of: isReorderMode) { oldValue, newValue in
-            if newValue && !oldValue && reorderedBlocks.isEmpty {
-                // Auto-enabled reorder mode, initialize reordered blocks
-                reorderedBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
-            }
+        .sheet(isPresented: $showingPremiumSubscription) {
+            PremiumSubscriptionView()
         }
+        // Reorder functionality removed
     }
     
     private var headerView: some View {
@@ -217,7 +197,48 @@ public struct MainView: View {
             
             Spacer()
             
-            // Buttons removed
+            // Premium upgrade button
+            if !storeManager.isPremium {
+                Button(action: {
+                    showingPremiumSubscription = true
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 12))
+                        Text("アップグレード")
+                            .font(.system(.caption, design: .rounded))
+                            .fontWeight(.medium)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        LinearGradient(
+                            colors: [.pink, .purple],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .clipShape(Capsule())
+                    .shadow(color: .pink.opacity(0.3), radius: 4, y: 2)
+                }
+            } else {
+                // Premium badge
+                HStack(spacing: 4) {
+                    Image(systemName: "crown.fill")
+                        .font(.system(size: 12))
+                    Text("Premium")
+                        .font(.system(.caption, design: .rounded))
+                        .fontWeight(.medium)
+                }
+                .foregroundColor(.pink)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule()
+                        .strokeBorder(Color.pink.opacity(0.5), lineWidth: 1)
+                )
+            }
         }
         .padding(.horizontal, 20)
         .padding(.top, 10)
@@ -262,43 +283,12 @@ public struct MainView: View {
         let _ = viewModel.refreshTrigger
         
         // Get all blocks including routine tasks
-        let allBlocks = isReorderMode && !reorderedBlocks.isEmpty ? reorderedBlocks : getAllBlocksWithRoutine()
-            .sorted { $0.startTime < $1.startTime }
+        let allBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
         
         // Calculate overlapping groups
         let overlapGroups = calculateOverlapGroups(blocks: allBlocks)
         
         return LazyVStack(spacing: 0) {
-            // Reorder mode helper
-            if isReorderMode {
-                VStack(spacing: 8) {
-                    HStack(spacing: 8) {
-                        Image(systemName: "hand.tap.fill")
-                            .font(.system(.body, design: .rounded))
-                            .foregroundColor(.pink)
-                        
-                        Text("タスクを長押ししてドラッグで並べ替え")
-                            .font(.system(.body, design: .rounded))
-                            .foregroundColor(.white)
-                    }
-                    
-                    Text("完了したら右上の✓をタップ")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.gray)
-                }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.pink.opacity(0.15))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.pink.opacity(0.3), lineWidth: 1)
-                        )
-                )
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-            }
             
             if allBlocks.isEmpty {
                 // Empty state with rectangular add button
@@ -353,12 +343,9 @@ public struct MainView: View {
                     } else {
                         // Single task - display normally
                         ForEach(group.blocks) { block in
-                            DraggableVerticalTaskView(
+                            LongPressDeleteTaskView(
                                 block: block,
-                                viewModel: viewModel,
-                                isReorderMode: $isReorderMode,
-                                draggedBlock: $reorderDraggedBlock,
-                                onReorder: handleReorder
+                                viewModel: viewModel
                             )
                             .padding(.vertical, 4)
                         }
@@ -689,76 +676,7 @@ public struct MainView: View {
         }
     }
     
-    // MARK: - Reorder Functions
-    
-    private func toggleReorderMode() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-            isReorderMode.toggle()
-            if isReorderMode {
-                reorderedBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
-            } else {
-                // Apply the reordered times when exiting reorder mode
-                applyReorderedTimes()
-            }
-        }
-    }
-    
-    private func handleReorder(_ source: SDTimeBlock, _ destination: SDTimeBlock) {
-        var blocks = reorderedBlocks.isEmpty ? getAllBlocksWithRoutine().sorted(by: { $0.startTime < $1.startTime }) : reorderedBlocks
-        
-        // Find indices
-        guard let sourceIndex = blocks.firstIndex(where: { $0.id == source.id }),
-              let destIndex = blocks.firstIndex(where: { $0.id == destination.id }) else { return }
-        
-        // Remove and insert
-        let movedBlock = blocks.remove(at: sourceIndex)
-        blocks.insert(movedBlock, at: destIndex)
-        
-        // Update the reordered blocks
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-            reorderedBlocks = blocks
-        }
-        
-        // Haptic feedback
-        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-        impactFeedback.impactOccurred()
-    }
-    
-    private func applyReorderedTimes() {
-        guard !reorderedBlocks.isEmpty else { return }
-        
-        var currentTime = reorderedBlocks.first?.startTime ?? Date()
-        
-        // Update each block's time based on the new order
-        for (index, block) in reorderedBlocks.enumerated() {
-            let duration = block.endTime.timeIntervalSince(block.startTime)
-            
-            // Skip routine blocks as they have fixed times
-            if block.isRoutine {
-                currentTime = block.endTime
-                continue
-            }
-            
-            // Add 5 minute gap between tasks
-            if index > 0 {
-                currentTime = currentTime.addingTimeInterval(300) // 5 minutes
-            }
-            
-            let newEndTime = currentTime.addingTimeInterval(duration)
-            
-            // Update the block with new times
-            viewModel.updateTimeBlock(block, startTime: currentTime, endTime: newEndTime)
-            
-            currentTime = newEndTime
-        }
-        
-        // Clear reordered blocks
-        reorderedBlocks = []
-        
-        // Success feedback
-        let notificationFeedback = UINotificationFeedbackGenerator()
-        notificationFeedback.notificationOccurred(.success)
-    }
+    // Reorder functions removed for better UX
 }
 
 struct MainCalendarDayView: View {
