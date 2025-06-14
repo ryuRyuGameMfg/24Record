@@ -89,8 +89,33 @@ public struct MainView: View {
                     
                     // Loading overlay with higher z-index
                     if isLoadingTasks || operationInProgress {
-                        loadingOverlay
-                            .zIndex(1000) // Ensure it's above everything including FAB
+                        ZStack {
+                            Color.black.opacity(0.3)
+                                .ignoresSafeArea()
+                            
+                            VStack(spacing: 16) {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .pink))
+                                    .scaleEffect(1.2)
+                                
+                                Text(operationInProgress ? "処理中..." : "読み込み中...")
+                                    .font(.system(.body, design: .rounded))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(24)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color(white: 0.1))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .strokeBorder(Color.pink.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                        }
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 0.2), value: isLoadingTasks)
+                        .animation(.easeInOut(duration: 0.2), value: operationInProgress)
+                        .zIndex(1000) // Ensure it's above everything including FAB
                     }
                 }
                 
@@ -197,7 +222,14 @@ public struct MainView: View {
         // Reorder functionality removed
     }
     
-    private var headerView: some View {
+    var monthYearText: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年M月"
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: viewModel.selectedDate)
+    }
+    
+    var headerView: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .center, spacing: 12) {
@@ -288,7 +320,7 @@ public struct MainView: View {
         .padding(.top, 10)
     }
     
-    private var monthCalendarView: some View {
+    var monthCalendarView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { proxy in
                 HStack(spacing: 12) {
@@ -322,7 +354,7 @@ public struct MainView: View {
         .padding(.vertical, 16)
     }
     
-    private func timelineContent(proxy: ScrollViewProxy) -> some View {
+    func timelineContent(proxy: ScrollViewProxy) -> some View {
         // Force refresh when trigger changes
         let _ = viewModel.refreshTrigger
         
@@ -330,12 +362,42 @@ public struct MainView: View {
         let allBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
         
         return ZStack(alignment: .leading) {
-            // Background timeline axis
-            timelineAxisBackground
-                .frame(maxWidth: .infinity, alignment: .leading)
+            // Interactive timeline background
+            VStack(spacing: 0) {
+                ForEach(getTimelineHours(), id: \.self) { hour in
+                    ZStack {
+                        TimelineHourMarker(
+                            hour: hour,
+                            isCurrentHour: isCurrentHour(hour),
+                            height: hourHeight
+                        )
+                        
+                        // Interactive layer for direct time selection
+                        TimelineInteractiveView(
+                            hour: hour,
+                            selectedDate: viewModel.selectedDate,
+                            existingBlocks: allBlocks,
+                            onTapTime: { selectedTime in
+                                suggestedStartTime = selectedTime
+                                suggestedEndTime = selectedTime.addingTimeInterval(3600) // Default 1 hour
+                                withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                                    showingUnifiedTaskAdd = true
+                                }
+                            }
+                        )
+                        .padding(.leading, 66) // Offset for timeline labels
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             // Current time indicator
-            currentTimeIndicator
+            Group {
+                if Calendar.current.isDate(Date(), inSameDayAs: viewModel.selectedDate) {
+                    CurrentTimeLineView(selectedDate: viewModel.selectedDate)
+                        .padding(.leading, 66) // Offset for timeline labels
+                }
+            }
             
             HStack(spacing: 0) {
                 // Left spacer for timeline
@@ -378,7 +440,7 @@ public struct MainView: View {
                 // Display all tasks with improved animations
                 ForEach(Array(allBlocks.enumerated()), id: \.element.id) { index, block in
                     VStack(spacing: 8) {
-                        LongPressDeleteTaskView(
+                        DraggableTaskView(
                             block: block,
                             viewModel: viewModel
                         )
@@ -455,30 +517,8 @@ public struct MainView: View {
         }
     }
     
-    // MARK: - Current Time Indicator
-    private var currentTimeIndicator: some View {
-        Group {
-            if Calendar.current.isDate(Date(), inSameDayAs: viewModel.selectedDate) {
-                CurrentTimeLineView(selectedDate: viewModel.selectedDate)
-                    .padding(.leading, 66) // Offset for timeline labels
-            }
-        }
-    }
     
-    // MARK: - Timeline Axis Background
-    private var timelineAxisBackground: some View {
-        VStack(spacing: 0) {
-            ForEach(getTimelineHours(), id: \.self) { hour in
-                TimelineHourMarker(
-                    hour: hour,
-                    isCurrentHour: isCurrentHour(hour),
-                    height: hourHeight
-                )
-            }
-        }
-    }
-    
-    private func getTimelineHours() -> [Int] {
+    func getTimelineHours() -> [Int] {
         let routineSettings = DailyRoutineSettings.shared
         let wakeTime = routineSettings.getWakeUpTime(for: viewModel.selectedDate)
         let bedTime = routineSettings.getBedTime(for: viewModel.selectedDate)
@@ -500,7 +540,7 @@ public struct MainView: View {
         return hours
     }
     
-    private func isCurrentHour(_ hour: Int) -> Bool {
+    func isCurrentHour(_ hour: Int) -> Bool {
         let calendar = Calendar.current
         let now = Date()
         let currentHour = calendar.component(.hour, from: now)
@@ -509,15 +549,7 @@ public struct MainView: View {
         return calendar.isDate(now, inSameDayAs: viewModel.selectedDate) && currentHour == hour
     }
     
-    
-    private var monthYearText: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年M月"
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: viewModel.selectedDate)
-    }
-    
-    private func getBlocksForHour(_ hour: Int) -> [SDTimeBlock] {
+    func getBlocksForHour(_ hour: Int) -> [SDTimeBlock] {
         let blocks = viewModel.getTimeBlocks(for: viewModel.selectedDate)
         let calendar = Calendar.current
         
@@ -530,7 +562,7 @@ public struct MainView: View {
         }
     }
     
-    private func createTimeForHour(_ hour: Int, minute: Int) -> Date {
+    func createTimeForHour(_ hour: Int, minute: Int) -> Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: viewModel.selectedDate)
         var dateComponents = DateComponents()
@@ -546,7 +578,7 @@ public struct MainView: View {
     // MARK: - Helper Functions
     
     
-    private func isSameTimeRange(_ block1: SDTimeBlock, _ block2: SDTimeBlock) -> Bool {
+    func isSameTimeRange(_ block1: SDTimeBlock, _ block2: SDTimeBlock) -> Bool {
         let calendar = Calendar.current
         let hour1 = calendar.component(.hour, from: block1.startTime)
         let hour2 = calendar.component(.hour, from: block2.startTime)
@@ -555,7 +587,7 @@ public struct MainView: View {
     
     
     // MARK: - Get All Blocks Including Routine
-    private func getAllBlocksWithRoutine() -> [SDTimeBlock] {
+    func getAllBlocksWithRoutine() -> [SDTimeBlock] {
         var allBlocks = viewModel.getTimeBlocks(for: viewModel.selectedDate)
         
         // Add routine tasks if enabled
@@ -594,39 +626,11 @@ public struct MainView: View {
     }
     
     
-    private var loadingOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 16) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .pink))
-                    .scaleEffect(1.2)
-                
-                Text(operationInProgress ? "処理中..." : "読み込み中...")
-                    .font(.system(.body, design: .rounded))
-                    .foregroundColor(.white)
-            }
-            .padding(24)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color(white: 0.1))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .strokeBorder(Color.pink.opacity(0.3), lineWidth: 1)
-                    )
-            )
-        }
-        .transition(.opacity)
-        .animation(.easeInOut(duration: 0.2), value: isLoadingTasks)
-        .animation(.easeInOut(duration: 0.2), value: operationInProgress)
-    }
     
     
     // MARK: - Free Time Calculation
     
-    private func calculateFreeTime(allBlocks: [SDTimeBlock]) -> (totalFreeTime: Int, nextAvailableTime: Date?) {
+    func calculateFreeTime(allBlocks: [SDTimeBlock]) -> (totalFreeTime: Int, nextAvailableTime: Date?) {
         let routineSettings = DailyRoutineSettings.shared
         
         let wakeTime = routineSettings.getWakeUpTime(for: viewModel.selectedDate)
