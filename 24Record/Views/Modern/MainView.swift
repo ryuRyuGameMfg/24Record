@@ -66,60 +66,68 @@ public struct MainView: View {
                 Color.black
                     .ignoresSafeArea()
                 
-                VStack(spacing: 0) {
-                    // Header with month/year
-                    headerView
-                    
-                    // Horizontal calendar
-                    monthCalendarView
-                        .padding(.horizontal)
-                    
-                    // Timeline content
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            ZStack {
+                ZStack {
+                    VStack(spacing: 0) {
+                        // Header with month/year
+                        headerView
+                        
+                        // Horizontal calendar
+                        monthCalendarView
+                            .padding(.horizontal)
+                        
+                        // Timeline content with improved scroll behavior
+                        ScrollViewReader { proxy in
+                            ScrollView(.vertical, showsIndicators: false) {
                                 timelineContent(proxy: proxy)
                                     .padding(.horizontal, 16)
-                                
-                                // Loading overlay
-                                if isLoadingTasks || operationInProgress {
-                                    loadingOverlay
-                                }
+                                    .padding(.bottom, 100) // Extra bottom padding for FAB
                             }
+                            .scrollBounceBehavior(.basedOnSize) // Better bounce behavior
+                            .scrollContentBackground(.hidden) // Hide default background
                         }
+                    }
+                    
+                    // Loading overlay with higher z-index
+                    if isLoadingTasks || operationInProgress {
+                        loadingOverlay
+                            .zIndex(1000) // Ensure it's above everything including FAB
                     }
                 }
                 
-                // Floating action button
+                // Floating action button - improved size and positioning
                 VStack {
                     Spacer()
                     HStack {
                         Spacer()
-                        VStack(spacing: 16) {
-                            // Main FAB
-                            Button(action: {
-                                suggestedStartTime = nil
-                                suggestedEndTime = nil
-                                showingUnifiedTaskAdd = true
-                            }) {
-                                Image(systemName: "plus")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                    .frame(width: 64, height: 64) // 44px以上のタップ領域
-                                    .background(
+                        Button(action: {
+                            suggestedStartTime = nil
+                            suggestedEndTime = nil
+                            showingUnifiedTaskAdd = true
+                        }) {
+                            ZStack {
+                                // Background with better shadow
+                                Circle()
+                                    .fill(
                                         LinearGradient(
                                             colors: [.pink, .red],
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
                                         )
                                     )
-                                    .clipShape(Circle())
-                                    .shadow(color: Color.pink.opacity(0.4), radius: 12, x: 0, y: 8)
+                                    .frame(width: 56, height: 56) // Slightly smaller but still accessible
+                                    .shadow(color: Color.pink.opacity(0.4), radius: 8, x: 0, y: 4)
+                                
+                                // Icon with better visual hierarchy
+                                Image(systemName: "plus")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
                             }
                         }
-                        .padding(.trailing, 16)
-                        .padding(.bottom, 20)
+                        .scaleEffect(1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: showingUnifiedTaskAdd)
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 24) // Better bottom spacing
                     }
                 }
             }
@@ -190,61 +198,90 @@ public struct MainView: View {
     }
     
     private var headerView: some View {
-        HStack {
+        HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(monthYearText)
-                    .font(.system(.title, design: .rounded))
-                    .fontWeight(.bold)
-                    .foregroundColor(.pink)
+                HStack(alignment: .center, spacing: 12) {
+                    Text(monthYearText)
+                        .font(.system(.title2, design: .rounded))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                    // Today button
+                    if !Calendar.current.isDate(viewModel.selectedDate, inSameDayAs: Date()) {
+                        Button("今日") {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                viewModel.selectedDate = Date()
+                            }
+                        }
+                        .font(.system(.caption, design: .rounded))
+                        .fontWeight(.medium)
+                        .foregroundColor(.pink)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            Capsule()
+                                .strokeBorder(Color.pink.opacity(0.5), lineWidth: 1)
+                        )
+                    }
+                }
                 
-                Text("タイムライン")
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.gray)
+                HStack(spacing: 8) {
+                    Text("タイムライン")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.gray)
+                    
+                    // Premium status indicator (smaller)
+                    if !storeManager.isPremium {
+                        Button(action: {
+                            showingPremiumSubscription = true
+                        }) {
+                            HStack(spacing: 3) {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 10))
+                                Text("Pro")
+                                    .font(.system(.caption2, design: .rounded))
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(
+                                LinearGradient(
+                                    colors: [.pink, .purple],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .clipShape(Capsule())
+                        }
+                    } else {
+                        HStack(spacing: 3) {
+                            Image(systemName: "crown.fill")
+                                .font(.system(size: 10))
+                            Text("Pro")
+                                .font(.system(.caption2, design: .rounded))
+                                .fontWeight(.medium)
+                        }
+                        .foregroundColor(.pink)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            Capsule()
+                                .strokeBorder(Color.pink.opacity(0.5), lineWidth: 1)
+                        )
+                    }
+                }
             }
             
             Spacer()
             
-            // Premium upgrade button
-            if !storeManager.isPremium {
-                Button(action: {
-                    showingPremiumSubscription = true
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "crown.fill")
-                            .font(.system(size: 12))
-                        Text("アップグレード")
-                            .font(.system(.caption, design: .rounded))
-                            .fontWeight(.medium)
-                    }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(
-                        LinearGradient(
-                            colors: [.pink, .purple],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(Capsule())
-                    .shadow(color: .pink.opacity(0.3), radius: 4, y: 2)
-                }
-            } else {
-                // Premium badge
-                HStack(spacing: 4) {
-                    Image(systemName: "crown.fill")
-                        .font(.system(size: 12))
-                    Text("Premium")
-                        .font(.system(.caption, design: .rounded))
-                        .fontWeight(.medium)
-                }
-                .foregroundColor(.pink)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(
-                    Capsule()
-                        .strokeBorder(Color.pink.opacity(0.5), lineWidth: 1)
-                )
+            // Settings button
+            Button(action: {
+                selectedTab = 2
+            }) {
+                Image(systemName: "gearshape.fill")
+                    .font(.system(.title3))
+                    .foregroundColor(.gray)
             }
         }
         .padding(.horizontal, 20)
@@ -292,22 +329,21 @@ public struct MainView: View {
         // Get all blocks including routine tasks
         let allBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
         
-        return GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                // Background timeline axis
-                timelineAxisBackground
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        return ZStack(alignment: .leading) {
+            // Background timeline axis
+            timelineAxisBackground
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            // Current time indicator
+            currentTimeIndicator
+            
+            HStack(spacing: 0) {
+                // Left spacer for timeline
+                Spacer()
+                    .frame(width: 66)
                 
-                // Current time indicator
-                currentTimeIndicator
-                
-                HStack(spacing: 0) {
-                    // Left spacer for timeline
-                    Spacer()
-                        .frame(width: 66)
-                    
-                    // Main content
-                    LazyVStack(spacing: 0) {
+                // Main content with optimized layout
+                LazyVStack(spacing: 4, pinnedViews: []) {
             
             if allBlocks.isEmpty {
                 // Empty state with rectangular add button
@@ -339,34 +375,47 @@ public struct MainView: View {
                 }
                 .padding(.top, 80)
             } else {
-                // Display all tasks as single items (overlaps should not exist)
+                // Display all tasks with improved animations
                 ForEach(Array(allBlocks.enumerated()), id: \.element.id) { index, block in
-                    LongPressDeleteTaskView(
-                        block: block,
-                        viewModel: viewModel
-                    )
-                    .padding(.vertical, 4)
-                    .id("task_\(block.id.uuidString)")
-                    
-                    // Add gap indicator between tasks if needed
-                    if index < allBlocks.count - 1 {
-                        let nextBlock = allBlocks[index + 1]
-                        let gapDuration = nextBlock.startTime.timeIntervalSince(block.endTime)
+                    VStack(spacing: 8) {
+                        LongPressDeleteTaskView(
+                            block: block,
+                            viewModel: viewModel
+                        )
+                        .transition(.asymmetric(
+                            insertion: .scale(scale: 0.8)
+                                .combined(with: .opacity)
+                                .combined(with: .move(edge: .trailing)),
+                            removal: .scale(scale: 0.8)
+                                .combined(with: .opacity)
+                                .combined(with: .move(edge: .leading))
+                        ))
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: allBlocks.map { $0.id })
+                        .id("task_\(block.id.uuidString)")
                         
-                        if gapDuration >= 3600 { // Show gap if 1 hour or more
-                            ChainGapDisplayView(
-                                fromTime: block.endTime,
-                                toTime: nextBlock.startTime,
-                                onAddTask: { startTime in
-                                    suggestedStartTime = block.endTime
-                                    suggestedEndTime = block.endTime.addingTimeInterval(3600)
-                                    withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                                        showingUnifiedTaskAdd = true
+                        // Add gap indicator between tasks if needed
+                        if index < allBlocks.count - 1 {
+                            let nextBlock = allBlocks[index + 1]
+                            let gapDuration = nextBlock.startTime.timeIntervalSince(block.endTime)
+                            
+                            if gapDuration >= 3600 { // Show gap if 1 hour or more
+                                ChainGapDisplayView(
+                                    fromTime: block.endTime,
+                                    toTime: nextBlock.startTime,
+                                    onAddTask: { startTime in
+                                        suggestedStartTime = block.endTime
+                                        suggestedEndTime = block.endTime.addingTimeInterval(3600)
+                                        withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                                            showingUnifiedTaskAdd = true
+                                        }
                                     }
-                                }
-                            )
+                                )
+                                .transition(.scale.combined(with: .opacity))
+                                .animation(.spring(response: 0.3, dampingFraction: 0.8), value: gapDuration)
+                            }
                         }
                     }
+                    .padding(.vertical, 2)
                 }
                 
                 // Add next task button only if not ending with bedtime
@@ -399,11 +448,11 @@ public struct MainView: View {
                         .padding(.top, 16)
                     }
                 }
-                    }
-                    }
                     
                     Spacer()
                 }
+                
+                Spacer()
             }
         }
     }

@@ -135,6 +135,12 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     // MARK: - CRUD Operations
     
     func addTimeBlock(title: String, startTime: Date, endTime: Date, category: SDCategory, notes: String = "", tags: [SDTag] = []) {
+        // Check for overlaps before adding
+        if hasOverlappingTimeBlocks(startTime: startTime, endTime: endTime, excludingId: nil) {
+            print("Error: Cannot add overlapping time block")
+            return
+        }
+        
         let block = SDTimeBlock(
             title: title,
             startTime: startTime,
@@ -153,6 +159,26 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     }
     
     func updateTimeBlock(_ block: SDTimeBlock, title: String? = nil, startTime: Date? = nil, endTime: Date? = nil, category: SDCategory? = nil, notes: String? = nil, tags: [SDTag]? = nil, isCompleted: Bool? = nil) {
+        // Check for overlaps when updating time if time is being changed
+        if let newStartTime = startTime, let newEndTime = endTime {
+            if hasOverlappingTimeBlocks(startTime: newStartTime, endTime: newEndTime, excludingId: block.id) {
+                print("Error: Cannot update to overlapping time")
+                return
+            }
+        } else if let newStartTime = startTime {
+            let newEndTime = block.endTime
+            if hasOverlappingTimeBlocks(startTime: newStartTime, endTime: newEndTime, excludingId: block.id) {
+                print("Error: Cannot update to overlapping time")
+                return
+            }
+        } else if let newEndTime = endTime {
+            let newStartTime = block.startTime
+            if hasOverlappingTimeBlocks(startTime: newStartTime, endTime: newEndTime, excludingId: block.id) {
+                print("Error: Cannot update to overlapping time")
+                return
+            }
+        }
+        
         if let title = title { block.title = title }
         if let startTime = startTime { block.startTime = startTime }
         if let endTime = endTime { block.endTime = endTime }
@@ -479,6 +505,36 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     
     func canUseAdvancedNotifications() -> Bool {
         return StoreKitManager.isPremium
+    }
+    
+    // MARK: - Overlap Prevention
+    
+    func hasOverlappingTimeBlocks(startTime: Date, endTime: Date, excludingId: UUID?) -> Bool {
+        let calendar = Calendar.current
+        let selectedDay = calendar.startOfDay(for: startTime)
+        let existingBlocks = getTimeBlocks(for: selectedDay)
+        
+        for existingBlock in existingBlocks {
+            // Skip the block we're excluding (for updates)
+            if let excludingId = excludingId, existingBlock.id == excludingId {
+                continue
+            }
+            
+            // Check for overlap: two time ranges overlap if one starts before the other ends
+            let overlaps = startTime < existingBlock.endTime && endTime > existingBlock.startTime
+            if overlaps {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func canAddTimeBlock(startTime: Date, endTime: Date) -> (allowed: Bool, reason: String?) {
+        if hasOverlappingTimeBlocks(startTime: startTime, endTime: endTime, excludingId: nil) {
+            return (false, "この時間帯は既に他のタスクが予定されています")
+        }
+        return (true, nil)
     }
     
     // MARK: - Data Management
