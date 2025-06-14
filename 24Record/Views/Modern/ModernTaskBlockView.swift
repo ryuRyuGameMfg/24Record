@@ -47,7 +47,7 @@ struct ModernTaskBlockView: View {
         HStack(spacing: 0) {
             // Category color bar
             RoundedRectangle(cornerRadius: 8)
-                .fill(block.category.color)
+                .fill(block.category?.color ?? Color.gray)
                 .frame(width: 4)
                 .padding(.vertical, 2)
             
@@ -74,16 +74,16 @@ struct ModernTaskBlockView: View {
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.gray)
                     
-                    if !block.category.name.isEmpty {
-                        Text(block.category.name)
+                    if let category = block.category, !category.name.isEmpty {
+                        Text(category.name)
                             .font(.system(.caption, design: .rounded))
                             .fontWeight(.medium)
-                            .foregroundColor(block.category.color)
+                            .foregroundColor(category.color)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 2)
                             .background(
                                 Capsule()
-                                    .fill(block.category.color.opacity(0.2))
+                                    .fill(category.color.opacity(0.2))
                             )
                     }
                     
@@ -100,7 +100,7 @@ struct ModernTaskBlockView: View {
                             
                             RoundedRectangle(cornerRadius: 2)
                                 .fill(LinearGradient(
-                                    colors: [block.category.color, block.category.color.opacity(0.7)],
+                                    colors: [block.category?.color ?? .gray, (block.category?.color ?? .gray).opacity(0.7)],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
@@ -121,7 +121,7 @@ struct ModernTaskBlockView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                         .strokeBorder(
-                            isCurrentTask ? block.category.color.opacity(0.5) : Color.white.opacity(0.1),
+                            isCurrentTask ? (block.category?.color ?? .gray).opacity(0.5) : Color.white.opacity(0.1),
                             lineWidth: 1
                         )
                 )
