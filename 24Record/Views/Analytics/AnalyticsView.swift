@@ -71,8 +71,13 @@ struct AnalyticsView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
+            ZStack {
+                // Dark background
+                Color.black
+                    .ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 20) {
                     // Period Selector
                     periodSelector
                     
@@ -115,10 +120,20 @@ struct AnalyticsView: View {
                 }
                 .padding()
             }
+            } // Close ZStack
             .navigationTitle(L10n.analytics)
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 loadAnalyticsData()
+                // Set navigation bar appearance
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithOpaqueBackground()
+                appearance.backgroundColor = UIColor.black
+                appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+                appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+                
+                UINavigationBar.appearance().standardAppearance = appearance
+                UINavigationBar.appearance().scrollEdgeAppearance = appearance
             }
             .onChange(of: selectedPeriod) { _, _ in
                 loadAnalyticsData()
@@ -127,6 +142,8 @@ struct AnalyticsView: View {
                 loadAnalyticsData()
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .preferredColorScheme(.dark)
     }
     
     // MARK: - Period Selector
@@ -138,6 +155,17 @@ struct AnalyticsView: View {
         }
         .pickerStyle(SegmentedPickerStyle())
         .padding(.horizontal)
+        .onAppear {
+            // Set segmented control appearance for dark theme
+            UISegmentedControl.appearance().backgroundColor = UIColor(white: 0.1, alpha: 1.0)
+            UISegmentedControl.appearance().selectedSegmentTintColor = UIColor.systemPink
+            UISegmentedControl.appearance().setTitleTextAttributes([
+                .foregroundColor: UIColor.white
+            ], for: .normal)
+            UISegmentedControl.appearance().setTitleTextAttributes([
+                .foregroundColor: UIColor.white
+            ], for: .selected)
+        }
     }
     
     // MARK: - Date Selector
@@ -146,7 +174,7 @@ struct AnalyticsView: View {
             Button(action: previousPeriod) {
                 Image(systemName: "chevron.left")
                     .font(.title2)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
             }
             
             Spacer()
@@ -160,7 +188,7 @@ struct AnalyticsView: View {
             Button(action: nextPeriod) {
                 Image(systemName: "chevron.right")
                     .font(.title2)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
             }
         }
         .padding(.horizontal)
@@ -212,11 +240,11 @@ struct AnalyticsView: View {
             Text(value)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.primary)
+                .foregroundColor(.white)
             
             Text(title)
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
         }
         .padding()
         .background(
@@ -256,7 +284,7 @@ struct AnalyticsView: View {
                             
                             Text(stat.category.name)
                                 .font(.caption)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                                 .lineLimit(1)
                             
                             Spacer()
@@ -267,8 +295,11 @@ struct AnalyticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .fill(Color(white: 0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    )
             )
         }
     }
@@ -316,8 +347,11 @@ struct AnalyticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .fill(Color(white: 0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    )
             )
         }
     }
@@ -373,8 +407,11 @@ struct AnalyticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .fill(Color(white: 0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    )
             )
         }
     }
@@ -421,8 +458,11 @@ struct AnalyticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .fill(Color(white: 0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    )
             )
         }
     }
@@ -451,7 +491,7 @@ struct AnalyticsView: View {
                                 
                                 Text("\(stat.taskCount)" + L10n.tasks)
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(.gray)
                             }
                         }
                         
@@ -465,7 +505,7 @@ struct AnalyticsView: View {
                             
                             Text(String(format: "%.1f%%", stat.percentage))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.gray)
                         }
                     }
                     .padding(.vertical, 4)
@@ -478,8 +518,11 @@ struct AnalyticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .fill(Color(white: 0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    )
             )
         }
     }
@@ -489,15 +532,15 @@ struct AnalyticsView: View {
         VStack(spacing: 20) {
             Image(systemName: "chart.bar.xaxis")
                 .font(.system(size: 60))
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
             
             Text(L10n.noDataAvailable)
                 .font(.headline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
             
             Text(L10n.noTasksInPeriod)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
         }
         .padding(40)
