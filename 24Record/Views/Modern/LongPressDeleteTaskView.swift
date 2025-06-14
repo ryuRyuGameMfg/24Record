@@ -63,7 +63,7 @@ struct LongPressDeleteTaskView: View {
             ModernTaskBlockView(block: block)
                 .offset(dragOffset)
                 .scaleEffect(isShowingActions ? 0.98 : 1.0)
-                .shadow(color: .black.opacity(isShowingActions ? 0.2 : 0), radius: isShowingActions ? 8 : 0, y: isShowingActions ? 4 : 0)
+                .shadow(color: Color.black.opacity(isShowingActions ? 0.2 : 0), radius: isShowingActions ? 8 : 0, y: isShowingActions ? 4 : 0)
                 .animation(.spring(response: 0.3, dampingFraction: 0.8), value: dragOffset)
                 .animation(.spring(response: 0.2, dampingFraction: 0.9), value: isShowingActions)
                 .onTapGesture {

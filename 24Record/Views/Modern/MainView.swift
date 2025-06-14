@@ -1880,6 +1880,7 @@ struct TimelineHourMarker: View {
         }
     }
 }
+}
 
 #Preview {
     ContentView()
