@@ -451,8 +451,6 @@ public struct MainView: View {
                     
                     Spacer()
                 }
-                
-                Spacer()
             }
         }
     }
@@ -1879,7 +1877,6 @@ struct TimelineHourMarker: View {
             }
         }
     }
-}
 }
 
 #Preview {
