@@ -1,0 +1,16 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/VerticalTaskView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "完了",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 106
+        }
+      }
+    ]
+  },
+  "version": 1
+}

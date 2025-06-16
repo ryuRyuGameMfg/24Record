@@ -1,0 +1,168 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/UnifiedTaskAddView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "タスクを削除",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "タスクを編集",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "タスクを追加",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "削除",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "このタスクを削除してもよろしいですか？この操作は取り消せません。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 108
+        }
+      },
+      {
+        "comment": "",
+        "key": "カテゴリを選択",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 132
+        }
+      },
+      {
+        "comment": "",
+        "key": "開始・終了時刻（任意）",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "開始日時",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 211
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 216
+        }
+      },
+      {
+        "comment": "",
+        "key": "終了日時",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 237
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ 〜 %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 269
+        }
+      },
+      {
+        "comment": "",
+        "key": "現在の設定",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 266
+        }
+      },
+      {
+        "comment": "",
+        "key": "デフォルト設定",
+        "location": {
+          "startingColumn": 55,
+          "startingLine": 266
+        }
+      },
+      {
+        "comment": "",
+        "key": "メモ（任意）",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 286
+        }
+      },
+      {
+        "comment": "",
+        "key": "タスクの詳細をメモ...",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 291
+        }
+      },
+      {
+        "comment": "",
+        "key": "このタスクを削除",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 314
+        }
+      },
+      {
+        "comment": "",
+        "key": "保存",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 337
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,48 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "データをリセット",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "リセット",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "リセット",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "すべてのデータがリセットされ、デフォルトのカテゴリが復元されます。この操作は取り消せません。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 50
+        }
+      }
+    ]
+  },
+  "version": 1
+}

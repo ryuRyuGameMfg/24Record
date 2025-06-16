@@ -1,0 +1,18 @@
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/QuickActionButtonsView.swift":
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.d"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.o"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.swiftconstvalues"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.dia"
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/VerticalTaskView.swift":
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.d"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.o"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.dia"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.swiftconstvalues"
+"/Users/okamotoryuya/24Record/24Record/Utils/Localization.swift":
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.dia"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.swiftdeps"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.swiftconstvalues"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.o"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.d"

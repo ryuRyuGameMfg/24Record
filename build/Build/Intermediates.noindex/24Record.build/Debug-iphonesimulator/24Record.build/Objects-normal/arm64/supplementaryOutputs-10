@@ -1,0 +1,18 @@
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/TaskFocusedBlockView.swift":
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TaskFocusedBlockView.o"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TaskFocusedBlockView.swiftconstvalues"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TaskFocusedBlockView.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TaskFocusedBlockView.dia"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TaskFocusedBlockView.d"
+"/Users/okamotoryuya/24Record/24Record/Models/SwiftDataModels.swift":
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SwiftDataModels.dia"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SwiftDataModels.swiftdeps"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SwiftDataModels.swiftconstvalues"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SwiftDataModels.o"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SwiftDataModels.d"
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/SettingsView.swift":
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SettingsView.swiftconstvalues"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SettingsView.d"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SettingsView.swiftdeps"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SettingsView.o"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/SettingsView.dia"

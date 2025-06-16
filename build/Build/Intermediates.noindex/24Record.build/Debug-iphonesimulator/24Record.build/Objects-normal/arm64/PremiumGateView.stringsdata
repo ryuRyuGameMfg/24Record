@@ -1,0 +1,56 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Premium/PremiumGateView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "プレミアム機能",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "プレミアムで解放",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "閉じる",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "アップグレード",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "Content",
+        "location": {
+          "startingColumn": 1,
+          "startingLine": 193
+        }
+      }
+    ]
+  },
+  "version": 1
+}

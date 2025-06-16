@@ -1,0 +1,152 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/MainView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "処理中...",
+        "location": {
+          "startingColumn": 60,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "読み込み中...",
+        "location": {
+          "startingColumn": 77,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "タイムライン",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "分析",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 169
+        }
+      },
+      {
+        "comment": "",
+        "key": "設定",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 179
+        }
+      },
+      {
+        "comment": "",
+        "key": "今日",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 243
+        }
+      },
+      {
+        "comment": "",
+        "key": "タイムライン",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 261
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pro",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 273
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pro",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 293
+        }
+      },
+      {
+        "comment": "",
+        "key": "今日はまだタスクがありません",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 398
+        }
+      },
+      {
+        "comment": "",
+        "key": "最初のタスクを追加してスケジュールを始めましょう",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 403
+        }
+      },
+      {
+        "comment": "",
+        "key": "タスクを追加",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 459
+        }
+      },
+      {
+        "comment": "",
+        "key": "タイトル",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 891
+        }
+      },
+      {
+        "comment": "",
+        "key": "•",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 918
+        }
+      },
+      {
+        "comment": "",
+        "key": "毎日",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 981
+        }
+      },
+      {
+        "comment": "",
+        "key": "追加",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1271
+        }
+      },
+      {
+        "comment": "",
+        "key": "次のタスクを追加",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1588
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@から開始",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1593
+        }
+      }
+    ]
+  },
+  "version": 1
+}

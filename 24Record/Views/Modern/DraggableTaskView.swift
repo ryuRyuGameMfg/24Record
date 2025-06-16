@@ -15,7 +15,7 @@ struct DraggableTaskView: View {
     var body: some View {
         ZStack {
             // Main task view
-            ModernTaskBlockView(block: block)
+            ModernTaskBlockView(block: block, viewModel: viewModel)
                 .scaleEffect(isDragging ? 1.05 : 1.0)
                 .shadow(
                     color: isDragging ? block.color.opacity(0.4) : .clear,

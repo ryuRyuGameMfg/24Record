@@ -1,0 +1,18 @@
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/UnifiedTaskAddView.swift":
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.o"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.dia"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.swiftconstvalues"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.d"
+"/Users/okamotoryuya/24Record/24Record/Views/Analytics/AnalyticsView.swift":
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.swiftdeps"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.d"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.swiftconstvalues"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.dia"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.o"
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/CategoryButton.swift":
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.d"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.swiftconstvalues"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.dia"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.o"

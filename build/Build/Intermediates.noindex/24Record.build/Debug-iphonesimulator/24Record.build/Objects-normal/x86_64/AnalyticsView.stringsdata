@@ -1,0 +1,112 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Analytics/AnalyticsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 268
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 318
+        }
+      },
+      {
+        "comment": "",
+        "key": "カテゴリー",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 319
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lldh",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 330
+        }
+      },
+      {
+        "comment": "",
+        "key": "日付",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 370
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 371
+        }
+      },
+      {
+        "comment": "",
+        "key": "日付",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 379
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 380
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lldh",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 401
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 430
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 431
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 442
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lldh",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 452
+        }
+      }
+    ]
+  },
+  "version": 1
+}

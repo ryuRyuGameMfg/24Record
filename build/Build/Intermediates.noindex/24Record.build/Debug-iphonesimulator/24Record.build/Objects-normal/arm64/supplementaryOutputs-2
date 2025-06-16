@@ -1,0 +1,18 @@
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/DraggableVerticalTaskView.swift":
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableVerticalTaskView.dia"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableVerticalTaskView.d"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableVerticalTaskView.swiftconstvalues"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableVerticalTaskView.o"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableVerticalTaskView.swiftdeps"
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/TimelineInteractiveView.swift":
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TimelineInteractiveView.swiftconstvalues"
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TimelineInteractiveView.d"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TimelineInteractiveView.o"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TimelineInteractiveView.swiftdeps"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/TimelineInteractiveView.dia"
+"/Users/okamotoryuya/24Record/24Record/Views/Modern/DraggableTaskView.swift":
+  dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableTaskView.d"
+  swift-dependencies: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableTaskView.swiftdeps"
+  object: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableTaskView.o"
+  const-values: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableTaskView.swiftconstvalues"
+  diagnostics: "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/arm64/DraggableTaskView.dia"

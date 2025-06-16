@@ -362,31 +362,15 @@ public struct MainView: View {
         let allBlocks = getAllBlocksWithRoutine().sorted { $0.startTime < $1.startTime }
         
         return ZStack(alignment: .leading) {
-            // Interactive timeline background
+            // Subtle timeline background (de-emphasized)
             VStack(spacing: 0) {
                 ForEach(getTimelineHours(), id: \.self) { hour in
-                    ZStack {
-                        TimelineHourMarker(
-                            hour: hour,
-                            isCurrentHour: isCurrentHour(hour),
-                            height: hourHeight
-                        )
-                        
-                        // Interactive layer for direct time selection
-                        TimelineInteractiveView(
-                            hour: hour,
-                            selectedDate: viewModel.selectedDate,
-                            existingBlocks: allBlocks,
-                            onTapTime: { selectedTime in
-                                suggestedStartTime = selectedTime
-                                suggestedEndTime = selectedTime.addingTimeInterval(3600) // Default 1 hour
-                                withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                                    showingUnifiedTaskAdd = true
-                                }
-                            }
-                        )
-                        .padding(.leading, 66) // Offset for timeline labels
-                    }
+                    TimelineHourMarker(
+                        hour: hour,
+                        isCurrentHour: isCurrentHour(hour),
+                        height: hourHeight
+                    )
+                    .opacity(0.3) // Make timeline more subtle
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -437,22 +421,20 @@ public struct MainView: View {
                 }
                 .padding(.top, 80)
             } else {
-                // Display all tasks with improved animations
+                // Display all tasks with task-focused design
                 ForEach(Array(allBlocks.enumerated()), id: \.element.id) { index, block in
-                    VStack(spacing: 8) {
+                    VStack(spacing: 12) {
                         DraggableTaskView(
                             block: block,
                             viewModel: viewModel
                         )
                         .transition(.asymmetric(
-                            insertion: .scale(scale: 0.8)
+                            insertion: .scale(scale: 0.95)
+                                .combined(with: .opacity),
+                            removal: .scale(scale: 0.95)
                                 .combined(with: .opacity)
-                                .combined(with: .move(edge: .trailing)),
-                            removal: .scale(scale: 0.8)
-                                .combined(with: .opacity)
-                                .combined(with: .move(edge: .leading))
                         ))
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: allBlocks.map { $0.id })
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: allBlocks.map { $0.id })
                         .id("task_\(block.id.uuidString)")
                         
                         // Add gap indicator between tasks if needed
@@ -460,30 +442,79 @@ public struct MainView: View {
                             let nextBlock = allBlocks[index + 1]
                             let gapDuration = nextBlock.startTime.timeIntervalSince(block.endTime)
                             
-                            if gapDuration >= 3600 { // Show gap if 1 hour or more
-                                ChainGapDisplayView(
-                                    fromTime: block.endTime,
-                                    toTime: nextBlock.startTime,
-                                    onAddTask: { startTime in
+                            if gapDuration >= 900 { // Show gap if 15 minutes or more
+                                // Centered add button between tasks
+                                VStack(spacing: 8) {
+                                    // Gap duration indicator
+                                    if gapDuration >= 3600 {
+                                        HStack {
+                                            Spacer()
+                                            Text("\(Int(gapDuration / 3600))時間\(Int((gapDuration.truncatingRemainder(dividingBy: 3600)) / 60))分の空き")
+                                                .font(.system(size: 11, design: .rounded))
+                                                .foregroundColor(.gray.opacity(0.6))
+                                            Spacer()
+                                        }
+                                    }
+                                    
+                                    // Centered add button
+                                    Button(action: {
                                         suggestedStartTime = block.endTime
-                                        suggestedEndTime = block.endTime.addingTimeInterval(3600)
+                                        suggestedEndTime = nextBlock.startTime
                                         withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                                             showingUnifiedTaskAdd = true
                                         }
+                                    }) {
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "plus.circle.fill")
+                                                .font(.system(size: 14))
+                                            Text("タスクを追加")
+                                                .font(.system(.caption, design: .rounded))
+                                                .fontWeight(.medium)
+                                        }
+                                        .foregroundColor(.pink)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.pink.opacity(0.1))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .strokeBorder(
+                                                            LinearGradient(
+                                                                colors: [Color.pink.opacity(0.3), Color.pink.opacity(0.2)],
+                                                                startPoint: .leading,
+                                                                endPoint: .trailing
+                                                            ),
+                                                            lineWidth: 1
+                                                        )
+                                                )
+                                        )
                                     }
-                                )
-                                .transition(.scale.combined(with: .opacity))
-                                .animation(.spring(response: 0.3, dampingFraction: 0.8), value: gapDuration)
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 32)
                             }
                         }
                     }
                     .padding(.vertical, 2)
                 }
                 
-                // Add next task button only if not ending with bedtime
+                // Free time display and final task button
                 if !allBlocks.isEmpty {
                     let lastBlock = allBlocks.last!
                     let isBedtimeTask = lastBlock.title.contains("就寝") || lastBlock.title.contains("寝る") || lastBlock.title.contains("睡眠")
+                    
+                    // Calculate and display free time
+                    let freeTimeInfo = calculateFreeTime(allBlocks: allBlocks)
+                    if freeTimeInfo.totalFreeTime > 0 {
+                        FreeTimeDisplayView(
+                            freeTimeMinutes: freeTimeInfo.totalFreeTime,
+                            nextAvailableTime: freeTimeInfo.nextAvailableTime
+                        )
+                        .padding(.top, 16)
+                        .padding(.bottom, 8)
+                    }
                     
                     // Next task add button - only show if not bedtime
                     if !isBedtimeTask {
@@ -498,16 +529,7 @@ public struct MainView: View {
                                 }
                             }
                         )
-                    }
-                    
-                    // Free time display - positioned after tasks but before bedtime
-                    let freeTimeInfo = calculateFreeTime(allBlocks: allBlocks)
-                    if freeTimeInfo.totalFreeTime > 0 {
-                        FreeTimeDisplayView(
-                            freeTimeMinutes: freeTimeInfo.totalFreeTime,
-                            nextAvailableTime: freeTimeInfo.nextAvailableTime
-                        )
-                        .padding(.top, 16)
+                        .padding(.bottom, 16)
                     }
                 }
                     
@@ -858,39 +880,12 @@ struct InteractiveHourRowView: View {
 
 struct ModernTaskBlockView: View {
     let block: SDTimeBlock
+    @ObservedObject var viewModel: SwiftDataTimeTrackingViewModel
     @State private var showingEdit = false
     @State private var isEditing = false
     @State private var editingTitle = ""
+    @State private var isHovered = false
     @FocusState private var isTitleFieldFocused: Bool
-    
-    // 15分を基準とした時間比例の高さ計算
-    private var taskHeight: CGFloat {
-        let durationMinutes = block.duration / 60 // 分単位
-        let baseHeight: CGFloat = 60 // 15分の基本高さ（短縮）
-        let minimumHeight: CGFloat = 50 // 最小高さ（短縮）
-        let maximumHeight: CGFloat = 100 // 最大高さを制限
-        
-        // 15分を基準として比例計算
-        let proportionalHeight = (durationMinutes / 15.0) * baseHeight
-        
-        // 段階的な高さ調整（より控えめに）
-        let adjustedHeight = switch durationMinutes {
-        case 0..<10:
-            max(minimumHeight, proportionalHeight * 0.9) // 10分未満は少し縮小
-        case 10..<15:
-            max(minimumHeight, proportionalHeight * 0.95) // 15分未満は若干縮小
-        case 15..<30:
-            proportionalHeight // 15-30分は比例通り
-        case 30..<60:
-            proportionalHeight * 1.05 // 30-60分は少し拡大（控えめ）
-        case 60..<120:
-            proportionalHeight * 1.1 // 1-2時間はさらに拡大（控えめ）
-        default:
-            proportionalHeight * 1.15 // 2時間以上は最大拡大（控えめ）
-        }
-        
-        return min(maximumHeight, adjustedHeight) // 最大高さを制限
-    }
     
     var body: some View {
         Button(action: { 
@@ -898,112 +893,168 @@ struct ModernTaskBlockView: View {
                 showingEdit = true
             }
         }) {
-            HStack(alignment: .top, spacing: 12) {
-                // Left side: Icon - 固定サイズで上部配置
-                VStack {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [block.color, block.color.opacity(0.8)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+            HStack(spacing: 16) {
+                // Left side: Category indicator with icon
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [block.color, block.color.opacity(0.7)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
-                            .frame(width: 44, height: 44) // サイズを少し小さく
-                        
-                        if block.isRoutine {
-                            // Special icon for routine tasks
-                            Image(systemName: "clock.badge.checkmark.fill")
-                                .font(.system(.body, design: .rounded))
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                        } else {
-                            Image(systemName: block.category?.icon ?? "circle")
-                                .font(.system(.body, design: .rounded))
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                        }
-                    }
-                    .shadow(color: block.color.opacity(0.4), radius: 6, x: 0, y: 3)
+                        )
+                        .frame(width: 44, height: 44)
+                        .shadow(color: block.color.opacity(0.3), radius: 4, x: 0, y: 2)
                     
-                    Spacer(minLength: 0) // 残りスペースを埋める
+                    Image(systemName: block.category?.icon ?? "circle")
+                        .font(.system(.body))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
                 }
                 
-                // Middle: Task info - スクリーンショットのレイアウトに合わせて
-                VStack(alignment: .leading, spacing: 6) {
-                    // タイトルを上部に配置
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            // Duration and time first - スクリーンショットのように
-                            Text(timeText)
-                                .font(.system(.caption, design: .rounded))
-                                .fontWeight(.medium)
-                                .foregroundColor(.gray)
-                            
-                            // Title
-                            if isEditing {
-                                TextField("タイトル", text: $editingTitle)
-                                    .font(.system(.body, design: .rounded))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .textFieldStyle(PlainTextFieldStyle())
-                                    .focused($isTitleFieldFocused)
-                                    .onSubmit {
-                                        saveTitle()
-                                    }
-                            } else {
-                                Text(block.title)
-                                    .font(.system(.body, design: .rounded))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .lineLimit(2)
-                                    .onTapGesture {
-                                        startEditingTitle()
-                                    }
+                // Middle: Task content
+                VStack(alignment: .leading, spacing: 8) {
+                    // Title
+                    if isEditing {
+                        TextField("タイトル", text: $editingTitle)
+                            .font(.system(.body, design: .rounded))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .focused($isTitleFieldFocused)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.white.opacity(0.1))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .strokeBorder(Color.pink.opacity(0.5), lineWidth: 1)
+                                    )
+                            )
+                            .onSubmit {
+                                saveTitle()
                             }
-                        }
-                        
-                        Spacer()
+                    } else {
+                        Text(block.title)
+                            .font(.system(.body, design: .rounded))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .lineLimit(2)
                     }
                     
-                    Spacer(minLength: 0)
+                    // Metadata row
+                    HStack(spacing: 12) {
+                        // Time info
+                        HStack(spacing: 4) {
+                            Image(systemName: "clock")
+                                .font(.system(size: 11))
+                            Text(timeText)
+                                .font(.system(.caption, design: .rounded))
+                        }
+                        .foregroundColor(.gray)
+                        
+                        // Duration
+                        Text(durationText)
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.white.opacity(0.05))
+                            )
+                        
+                        // Routine badge
+                        if block.isRoutine {
+                            HStack(spacing: 3) {
+                                Image(systemName: "arrow.clockwise")
+                                    .font(.system(size: 10))
+                                Text("毎日")
+                                    .font(.system(size: 11, design: .rounded))
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(block.color)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(block.color.opacity(0.15))
+                            )
+                        }
+                    }
                     
-                    // Duration at bottom if there are notes
+                    // Notes preview
                     if !block.notes.isEmpty {
                         Text(block.notes)
-                            .font(.system(.caption2, design: .rounded))
+                            .font(.system(.caption, design: .rounded))
                             .foregroundColor(.gray.opacity(0.8))
                             .lineLimit(1)
                     }
                 }
                 
-                // Right: Status circle - スクリーンショットのように
-                VStack {
-                    Circle()
-                        .strokeBorder(statusColor, lineWidth: 2)
-                        .background(
-                            Circle()
-                                .fill(block.isCompleted ? statusColor : Color.clear)
-                        )
-                        .frame(width: 24, height: 24)
+                Spacer()
+                
+                // Right: Actions
+                VStack(spacing: 12) {
+                    // Edit button (appears on hover)
+                    if isHovered {
+                        Button(action: {
+                            startEditingTitle()
+                        }) {
+                            Image(systemName: "pencil")
+                                .font(.system(.caption))
+                                .foregroundColor(.gray)
+                                .frame(width: 24, height: 24)
+                                .background(
+                                    Circle()
+                                        .fill(Color.white.opacity(0.1))
+                                )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .transition(.scale.combined(with: .opacity))
+                    }
                     
-                    Spacer()
+                    // Completion checkbox
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            block.isCompleted.toggle()
+                            viewModel.updateTimeBlock(block)
+                        }
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedback.impactOccurred()
+                    }) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 6)
+                                .strokeBorder(
+                                    block.isCompleted ? Color.green : Color.gray.opacity(0.3),
+                                    lineWidth: 2
+                                )
+                                .frame(width: 24, height: 24)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .fill(block.isCompleted ? Color.green : Color.clear)
+                                )
+                            
+                            if block.isCompleted {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 12, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, taskHeight > 70 ? 14 : 10) // 高さに応じてパディング調整
-            .frame(minHeight: taskHeight) // 時間に応じた高さを適用
+            .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
                         LinearGradient(
-                            colors: block.isRoutine ? [
-                                Color(white: 0.15).opacity(0.8),
-                                Color(white: 0.10).opacity(0.8)
-                            ] : [
-                                Color(white: 0.12),
-                                Color(white: 0.08)
+                            colors: [
+                                Color(white: block.isCompleted ? 0.12 : 0.10),
+                                Color(white: block.isCompleted ? 0.08 : 0.06)
                             ],
                             startPoint: .top,
                             endPoint: .bottom
@@ -1012,46 +1063,40 @@ struct ModernTaskBlockView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .strokeBorder(
-                                block.isRoutine ? 
-                                    block.color.opacity(0.5) : 
-                                    block.color.opacity(0.3),
-                                lineWidth: block.isRoutine ? 2 : 1
+                                block.isCompleted ? 
+                                    Color.green.opacity(0.3) : 
+                                    Color.white.opacity(0.08),
+                                lineWidth: 1
                             )
                     )
-                    .overlay(
-                        // Badge for routine tasks
-                        block.isRoutine ? 
-                        HStack {
-                            Spacer()
-                            VStack {
-                                Text("毎日")
-                                    .font(.system(.caption2, design: .rounded))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(
-                                        Capsule()
-                                            .fill(block.color.opacity(0.8))
-                                    )
-                                    .padding(8)
-                                Spacer()
-                            }
-                        } : nil
-                    )
             )
-            .shadow(color: block.color.opacity(0.2), radius: 6, x: 0, y: 3)
-            .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 1)
+            .scaleEffect(isHovered ? 1.02 : 1.0)
+            .shadow(
+                color: block.isCompleted ? 
+                    Color.green.opacity(0.2) : 
+                    Color.black.opacity(0.2),
+                radius: isHovered ? 8 : 4,
+                x: 0,
+                y: isHovered ? 4 : 2
+            )
         }
         .buttonStyle(PlainButtonStyle())
-        .highPriorityGesture(
-            TapGesture()
-                .onEnded { _ in
-                    if isEditing {
-                        // Don't trigger button action while editing
-                    }
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                isHovered = hovering
+            }
+        }
+        .sheet(isPresented: $showingEdit) {
+            UnifiedTaskAddView(
+                viewModel: viewModel,
+                isPresented: $showingEdit,
+                existingBlock: block,
+                onSave: { _ in },
+                onDelete: {
+                    viewModel.deleteTimeBlock(block)
                 }
-        )
+            )
+        }
     }
     
     private func startEditingTitle() {
@@ -1069,8 +1114,7 @@ struct ModernTaskBlockView: View {
     private func saveTitle() {
         if !editingTitle.isEmpty && editingTitle != block.title {
             block.title = editingTitle
-            // Save through view model if needed
-            // viewModel.updateTimeBlock(block, title: editingTitle)
+            viewModel.updateTimeBlock(block)
             
             // Success feedback
             let notificationFeedback = UINotificationFeedbackGenerator()
@@ -1850,9 +1894,9 @@ struct TimelineHourMarker: View {
                 // Time label on left
                 VStack {
                     Text(timeText)
-                        .font(.system(.caption, design: .rounded))
-                        .fontWeight(isCurrentHour ? .bold : .medium)
-                        .foregroundColor(isCurrentHour ? .blue : .gray)
+                        .font(.system(.caption2, design: .rounded))
+                        .fontWeight(isCurrentHour ? .medium : .regular)
+                        .foregroundColor(isCurrentHour ? .blue.opacity(0.6) : .gray.opacity(0.4))
                         .frame(width: 50, alignment: .trailing)
                     
                     Spacer()
@@ -1863,14 +1907,14 @@ struct TimelineHourMarker: View {
                 VStack(spacing: 0) {
                     // Solid line at hour mark
                     Rectangle()
-                        .fill(isCurrentHour ? Color.blue.opacity(0.8) : Color.gray.opacity(0.4))
-                        .frame(width: 2, height: 8)
+                        .fill(isCurrentHour ? Color.blue.opacity(0.4) : Color.gray.opacity(0.2))
+                        .frame(width: 1, height: 6)
                     
                     // Dotted line continuation
                     VStack(spacing: 2) {
                         ForEach(0..<Int((height-8)/4), id: \.self) { _ in
                             Circle()
-                                .fill(Color.gray.opacity(0.2))
+                                .fill(Color.gray.opacity(0.1))
                                 .frame(width: 1, height: 1)
                         }
                     }
@@ -1882,6 +1926,7 @@ struct TimelineHourMarker: View {
         }
     }
 }
+
 }
 
 #Preview {

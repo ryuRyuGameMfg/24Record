@@ -1,0 +1,308 @@
+{
+  "" : {
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/24Record-master.dia",
+    "emit-module-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/24Record-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/24Record-master-emit-module.dia",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/24Record-master.swiftdeps"
+  },
+  "/Users/okamotoryuya/24Record/24Record/ContentView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ContentView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Models/DailyRoutineSettings.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettings~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Models/SharedTypes.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SharedTypes~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Models/SwiftDataModels.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataModels~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Preview Content/PreviewHelpers.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PreviewHelpers~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Services/DataController.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DataController~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Services/StoreKitManager.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/StoreKitManager~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Utils/Localization.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Localization~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Utils/Utils.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/Utils~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/ViewModels/SwiftDataTimeTrackingViewModel.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SwiftDataTimeTrackingViewModel~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Analytics/AnalyticsView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/AnalyticsView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/CategoryButton.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/CategoryButton~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/DailyRoutineSettingsView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DailyRoutineSettingsView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/DraggableTaskView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableTaskView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/DraggableVerticalTaskView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DraggableVerticalTaskView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/DurationQuickSelector.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/DurationQuickSelector~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/ImprovedTaskBlockView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ImprovedTaskBlockView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/LongPressDeleteTaskView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/LongPressDeleteTaskView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/MainView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/MainView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/ModernTaskBlockView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/ModernTaskBlockView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/QuickActionButtonsView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/QuickActionButtonsView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/SettingsView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/TaskFocusedBlockView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TaskFocusedBlockView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/TimelineInteractiveView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/TimelineInteractiveView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/UnifiedTaskAddView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/UnifiedTaskAddView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Modern/VerticalTaskView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/VerticalTaskView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Premium/PremiumGateView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumGateView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/Views/Premium/PremiumSubscriptionView.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/PremiumSubscriptionView~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/24Record/_4RecordApp.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/_4RecordApp~partial.swiftmodule"
+  },
+  "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/okamotoryuya/24Record/build/Build/Intermediates.noindex/24Record.build/Debug-iphonesimulator/24Record.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

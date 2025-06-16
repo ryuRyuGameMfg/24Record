@@ -1,0 +1,176 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/QuickActionButtonsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "音声",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 349
+        }
+      },
+      {
+        "comment": "",
+        "key": "追加",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 390
+        }
+      },
+      {
+        "comment": "",
+        "key": "おすすめ: %@",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 412
+        }
+      },
+      {
+        "comment": "",
+        "key": "追加",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 419
+        }
+      },
+      {
+        "comment": "",
+        "key": "新規アクション",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 551
+        }
+      },
+      {
+        "comment": "",
+        "key": "アクション編集",
+        "location": {
+          "startingColumn": 70,
+          "startingLine": 551
+        }
+      },
+      {
+        "comment": "",
+        "key": "アクション設定",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 464
+        }
+      },
+      {
+        "comment": "",
+        "key": "アイコン",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 496
+        }
+      },
+      {
+        "comment": "",
+        "key": "色",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 518
+        }
+      },
+      {
+        "comment": "",
+        "key": "タイトル",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 465
+        }
+      },
+      {
+        "comment": "",
+        "key": "カテゴリ",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 467
+        }
+      },
+      {
+        "comment": "",
+        "key": "仕事",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 468
+        }
+      },
+      {
+        "comment": "",
+        "key": "個人",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 469
+        }
+      },
+      {
+        "comment": "",
+        "key": "運動",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 470
+        }
+      },
+      {
+        "comment": "",
+        "key": "食事",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 471
+        }
+      },
+      {
+        "comment": "",
+        "key": "勉強",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 472
+        }
+      },
+      {
+        "comment": "",
+        "key": "睡眠",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 473
+        }
+      },
+      {
+        "comment": "",
+        "key": "時間",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 478
+        }
+      },
+      {
+        "comment": "",
+        "key": "削除",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 544
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 555
+        }
+      },
+      {
+        "comment": "",
+        "key": "保存",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 561
+        }
+      }
+    ]
+  },
+  "version": 1
+}

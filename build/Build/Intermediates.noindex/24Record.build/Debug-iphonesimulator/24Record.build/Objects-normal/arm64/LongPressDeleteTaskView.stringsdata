@@ -1,0 +1,40 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/LongPressDeleteTaskView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "タスクを削除",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 152
+        }
+      },
+      {
+        "comment": "",
+        "key": "削除",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 156
+        }
+      },
+      {
+        "comment": "",
+        "key": "このタスクを削除してもよろしいですか？",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 158
+        }
+      }
+    ]
+  },
+  "version": 1
+}

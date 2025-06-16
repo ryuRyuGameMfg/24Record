@@ -1,0 +1,24 @@
+{
+  "source": "/Users/okamotoryuya/24Record/24Record/Views/Modern/ImprovedTaskBlockView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "タイトル",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 156
+        }
+      },
+      {
+        "comment": "",
+        "key": "タップして編集",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 227
+        }
+      }
+    ]
+  },
+  "version": 1
+}
