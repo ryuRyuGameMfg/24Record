@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct DraggableTaskView: View {
     let block: SDTimeBlock
@@ -34,7 +35,7 @@ struct DraggableTaskView: View {
                         if isEditingTime {
                             VStack {
                                 // Top handle for start time
-                                DragHandle(edge: .top)
+                                DragHandle(position: .top)
                                     .gesture(
                                         DragGesture()
                                             .onChanged { value in
@@ -48,7 +49,7 @@ struct DraggableTaskView: View {
                                 Spacer()
                                 
                                 // Bottom handle for end time
-                                DragHandle(edge: .bottom)
+                                DragHandle(position: .bottom)
                                     .gesture(
                                         DragGesture()
                                             .onChanged { value in
@@ -188,11 +189,16 @@ struct DraggableTaskView: View {
 }
 
 struct DragHandle: View {
-    let edge: Edge
+    enum Position {
+        case top
+        case bottom
+    }
+    
+    let position: Position
     
     var body: some View {
         HStack {
-            if edge == .top {
+            if position == .top {
                 Image(systemName: "line.3.horizontal")
                     .font(.system(.caption2))
                     .foregroundColor(.white)

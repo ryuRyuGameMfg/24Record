@@ -501,8 +501,7 @@ public struct MainView: View {
                 }
                 
                 // Free time display and final task button
-                if !allBlocks.isEmpty {
-                    let lastBlock = allBlocks.last!
+                if let lastBlock = allBlocks.last {
                     let isBedtimeTask = lastBlock.title.contains("就寝") || lastBlock.title.contains("寝る") || lastBlock.title.contains("睡眠")
                     
                     // Calculate and display free time

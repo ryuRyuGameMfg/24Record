@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct ModernTaskBlockView: View {
     let block: SDTimeBlock
