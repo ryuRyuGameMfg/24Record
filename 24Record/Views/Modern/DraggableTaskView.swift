@@ -12,10 +12,14 @@ struct DraggableTaskView: View {
     private let hourHeight: CGFloat = 80
     private let minuteHeight: CGFloat = 80.0 / 60.0
     
+    private var taskContentView: some View {
+        ModernTaskBlockView(block: block, viewModel: viewModel)
+    }
+    
     var body: some View {
         ZStack {
             // Main task view
-            ModernTaskBlockView(block: block, viewModel: viewModel)
+            taskContentView
                 .scaleEffect(isDragging ? 1.05 : 1.0)
                 .shadow(
                     color: isDragging ? block.color.opacity(0.4) : .clear,

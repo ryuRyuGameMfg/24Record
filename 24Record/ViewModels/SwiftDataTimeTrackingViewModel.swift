@@ -255,7 +255,7 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
             title: template.title,
             startTime: startTime,
             endTime: endTime,
-            category: template.category!,
+            category: template.category ?? getCategories().first!,
             notes: template.notes,
             tags: template.tags
         )
@@ -284,7 +284,7 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
             title: block.title,
             startTime: startTime,
             endTime: endTime,
-            category: block.category!,
+            category: block.category ?? getCategories().first!,
             notes: block.notes,
             tags: block.tags
         )
@@ -461,15 +461,15 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     
     func canAddTask(for date: Date) -> (allowed: Bool, reason: String?) {
         // Check if premium
-        if StoreKitManager.isPremium {
+        if StoreKitManager.shared.isPremium {
             return (true, nil)
         }
         
         // Count tasks for the day
         let tasksToday = getTimeBlocks(for: date).count
         
-        if tasksToday >= StoreKitManager.freeTaskLimit {
-            return (false, "無料版では1日\(StoreKitManager.freeTaskLimit)タスクまでです")
+        if tasksToday >= StoreKitManager.shared.freeTaskLimit {
+            return (false, "無料版では1日\(StoreKitManager.shared.freeTaskLimit)タスクまでです")
         }
         
         return (true, nil)
@@ -477,34 +477,34 @@ class SwiftDataTimeTrackingViewModel: ObservableObject {
     
     func canAddTemplate() -> (allowed: Bool, reason: String?) {
         // Check if premium
-        if StoreKitManager.isPremium {
+        if StoreKitManager.shared.isPremium {
             return (true, nil)
         }
         
         // Count templates
         let templateCount = getTaskTemplates().count
         
-        if templateCount >= StoreKitManager.freeTemplateLimit {
-            return (false, "無料版ではテンプレート\(StoreKitManager.freeTemplateLimit)個までです")
+        if templateCount >= StoreKitManager.shared.freeTemplateLimit {
+            return (false, "無料版ではテンプレート\(StoreKitManager.shared.freeTemplateLimit)個までです")
         }
         
         return (true, nil)
     }
     
     func canAccessDetailedStats() -> Bool {
-        return StoreKitManager.isPremium
+        return StoreKitManager.shared.isPremium
     }
     
     func canExportData() -> Bool {
-        return StoreKitManager.isPremium
+        return StoreKitManager.shared.isPremium
     }
     
     func canUseCustomThemes() -> Bool {
-        return StoreKitManager.isPremium
+        return StoreKitManager.shared.isPremium
     }
     
     func canUseAdvancedNotifications() -> Bool {
-        return StoreKitManager.isPremium
+        return StoreKitManager.shared.isPremium
     }
     
     // MARK: - Overlap Prevention
